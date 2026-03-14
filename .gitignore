@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Private files (conversation logs, personal notes)
+chat.md
+ChatGPT-chat.md
+目标.txt
+alphaxiv-paper-lookup.md
+
+# Downloaded PDFs (user data, not part of repo)
+raw_pdfs/
+
+# Project state files (generated at runtime)
+project_state.json
+corpus_ledger.json
+evidence_graph.json
+knowledge_graph.json
+hypothesis_board.json
+
+# Test artifacts
+.tmp_wheel/
+*.whl

@@ -1,0 +1,25 @@
+[project]
+name = "paper-service"
+version = "0.1.0"
+description = "ARIA 学术论文搜索、获取、验证 MCP Server"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=2.0.0",
+    "httpx>=0.27.0",
+    "feedparser>=6.0.0",       # arXiv API XML 解析
+    "aiofiles>=24.1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "ruff", "mypy"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sources", "tools"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"shared.py" = "shared.py"
+"server.py" = "server.py"
