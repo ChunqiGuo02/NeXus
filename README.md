@@ -1,12 +1,10 @@
 <div align="center">
   <h1>
     <img src="assets/nexus_logo.gif" width="96" alt="Nexus Logo" align="center" style="vertical-align: middle;">
-    &nbsp;&nbsp;&nbsp;Nexus
+    &nbsp;&nbsp;Nexus&nbsp;&nbsp;<span style="font-size: 0.6em; font-weight: normal; color: #666;">The Autonomous AI Co-Scientist</span>
   </h1>
 </div>
 <p align="center">
-  <strong>The Autonomous AI Co-Scientist</strong>
-  <br />
   <em>Accelerating discovery from literature to publication</em>
   <br /><br />
   <strong>Survey → Ideate → Experiment → Write → Review</strong>
