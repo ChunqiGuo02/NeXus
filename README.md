@@ -22,7 +22,7 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 ## ✨ What It Does
 
 ```mermaid
-flowchart TD
+flowchart LR
     %% Styles
     classDef phaseBox fill:#ffffff,stroke:#e5e7eb,stroke-width:2px,rx:10,ry:10
     classDef node fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,rx:6,ry:6
