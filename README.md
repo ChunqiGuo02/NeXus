@@ -22,38 +22,54 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 ## ✨ What It Does
 
 ```mermaid
-flowchart LR
+flowchart TD
     %% Styles
+    classDef phaseBox fill:#ffffff,stroke:#e5e7eb,stroke-width:2px,rx:10,ry:10
     classDef node fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,rx:6,ry:6
-    classDef q fill:#f3f4f6,stroke:#9ca3af,stroke-width:2px,stroke-dasharray: 4 4
-    classDef title fill:none,stroke:none,font-weight:bold,font-size:16px
+    classDef notify fill:#fdf4ff,stroke:#d946ef,stroke-width:2px,rx:6,ry:6,color:#a21caf
 
-    %% Titles
-    T1[Phase 1: Foundation]:::title
-    T2[Phase 2: Ideate & Write]:::title
-    T3[Phase 3: Experiment]:::title
-
-    %% Nodes
-    Q(["💬 User Query"]):::q
+    Q(["💬 User Query"])
     
-    S1["📚 Literature Survey\n↓\n✅ Citation Verify"]:::node
-    S2["📊 Extract Evidence\n↓\n🧠 Knowledge Graph\n(📱 Wait: Scope)"]:::node
-    
-    B1["💡 Brainstorm Ideas\n(📱 Wait: Approval)\n↓\n🔍 Novelty Check"]:::node
-    B2["📝 Write Draft\n↓\n👥 Multi-Reviewer\n(📱 Notify: Score)"]:::node
-    
-    E1["🧪 Run Experiment\n↓\n📈 Analyze Results\n(📱 Notify: Done)"]:::node
+    subgraph P1 ["Phase 1: Foundation"]
+        direction TB
+        S["📚 Literature Survey"]:::node
+        V["✅ Citation Verify"]:::node
+        E["📊 Extract Evidence"]:::node
+        K["🧠 Knowledge Graph"]:::node
+        S --> V --> E --> K
+    end
 
-    %% Layout Structure
-    Q --> S1 --> S2
-    S2 ==> B1
-    B1 --> B2
-    B2 ==>|Revise Draft| E1
+    subgraph P2 ["Phase 2: Ideate & Write"]
+        direction TB
+        B["💡 Brainstorm Ideas"]:::node
+        N["🔍 Novelty Check"]:::node
+        D["📝 Write Draft"]:::node
+        M["👥 Multi-Reviewer"]:::node
+        B --> N --> D --> M
+    end
 
-    %% Invisible alignment
-    T1 ~~~ S1
-    T2 ~~~ B1
-    T3 ~~~ E1
+    subgraph P3 ["Phase 3: Experiment"]
+        direction TB
+        R["🧪 Run Experiment"]:::node
+        A["📈 Analyze Results"]:::node
+        R --> A
+    end
+
+    F1[["📱 Wait: Scope Freeze"]]:::notify
+    F2[["📱 Wait: Idea Approval"]]:::notify
+    F3[["📱 Notify: Score & Done"]]:::notify
+
+    Q --> P1
+    P1 ==> P2
+    P2 ==> P3
+    P3 -.->|Revise Draft| P2
+
+    K -.-> F1
+    B -.-> F2
+    M -.-> F3
+    A -.-> F3
+
+    class P1,P2,P3 phaseBox
 ```
 
 ## 🚀 Quick Start
