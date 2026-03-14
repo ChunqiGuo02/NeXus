@@ -17,7 +17,7 @@ BASE_URL = "https://api.crossref.org"
 
 def _polite_headers(email: str | None) -> dict:
     """构造 polite pool 的 User-Agent。"""
-    ua = "ARIA/0.1 (https://github.com/ChunqiGuo02/ARIA)"
+    ua = "Nexus/0.1 (https://github.com/ChunqiGuo02/Nexus)"
     if email:
         ua += f" (mailto:{email})"
     return {"User-Agent": ua}

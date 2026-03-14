@@ -24,7 +24,7 @@ from sources import (
 
 logger = logging.getLogger("paper-service")
 
-GLOBAL_CONFIG_PATH = Path.home() / ".aria" / "global_config.json"
+GLOBAL_CONFIG_PATH = Path.home() / ".nexus" / "global_config.json"
 
 
 def _load_config() -> dict:

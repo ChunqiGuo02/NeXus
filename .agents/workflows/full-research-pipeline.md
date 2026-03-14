@@ -1,26 +1,46 @@
 ---
-description: 完整研究生命周期流水线：Survey → Ideate → Build → Write → Review
+description: 完整研究生命周期流水线：Survey → Ideate → Build → Write → Review。支持 Autopilot 模式。
 ---
 
 # full-research-pipeline
 
-端到端的研究流水线，从文献调研到论文审稿。
+端到端的研究流水线，从文献调研到论文审稿。支持手动和 Autopilot 两种模式。
 
 ## 使用方式
 
-用户输入: `/full-research-pipeline "研究主题"`
+- 手动模式: `/full-research-pipeline "研究主题"`
+- Autopilot: `/full-research-pipeline "研究主题"` 然后说 "autopilot"
+
+## 卡点行为规范
+
+在每个人机卡点执行以下逻辑：
+
+```
+读取 project_state.json → autopilot 字段
+读取 global_config.json → feishu 字段
+  │
+  ├─ feishu 已配置 → 发送飞书通知卡片（参考 feishu-notify skill）
+  │   ├─ mode="interactive" + autopilot=false → 等待飞书审批
+  │   └─ mode="push" → 仅推送，不等待
+  │
+  ├─ autopilot=true  → 输出 1-2 行 summary → 自动继续
+  └─ autopilot=false → 展示详情 → 等待用户输入（终端或飞书）
+```
+
+用户可在任意阶段说 "autopilot" 或 "暂停" 来切换模式。
 
 ## 流程
 
 ### Stage 1: Survey（文献调研）
 - 触发 `literature-survey` Skill
-- 等待 Scope Freeze 和 Corpus Freeze 卡点
+- 🔒 **卡点: Scope Freeze** — 确认搜索范围
+- 🔒 **卡点: Corpus Freeze** — 确认论文集
 - 产出: corpus_ledger.json + evidence_graph.json + survey.md
 
 ### Stage 2: Ideate（构思 Idea）
 - 触发 `idea-brainstorm` Skill
 - 基于 evidence_graph 进行缺口分析
-- 等待 Idea Approval 卡点
+- 🔒 **卡点: Idea Approval** — 用户选择/确认 idea
 - 自动触发 `novelty-checker`
 - 产出: hypothesis_board.json（含 novelty_risk）
 
@@ -42,21 +62,43 @@ description: 完整研究生命周期流水线：Survey → Ideate → Build →
 ### Stage 6: Review（审稿）
 - 触发 `multi-reviewer` Skill
 - 4 角色审稿 + Anchor 校准
-- 等待 Review Arena 卡点
+- 🔒 **卡点: Review Arena** — 用户决定是否修改
 - 产出: artifacts/review_report.json
 
 ### Stage 7: Revise（修改）
 - 根据 review 反馈，回到 Stage 5 修改
-- 重复 Stage 5-6 直到用户满意
+- 重复 Stage 5-6 直到用户满意（或 autopilot 下达到 2 轮自动停止）
 
 ## 人机卡点总览
 
 ```
-Stage 1 → [Scope Freeze] → [Corpus Freeze] → [Manual Fetch]
+Stage 1 → [Scope Freeze] → [Corpus Freeze]
 Stage 2 → [Idea Approval]
 Stage 6 → [Review Arena]
+
+Autopilot ON  → 自动通过，输出 summary
+Autopilot OFF → 等待用户确认
 ```
+
+## Autopilot 自动停止条件
+
+即使 autopilot=true，以下情况自动暂停并通知用户：
+- Review-Revise 循环超过 2 轮
+- 分数未提升（连续 2 轮 delta < 0.5）
+- 发现 retracted citation（安全红线）
+- API 调用异常（连续 3 次失败）
 
 ## 状态追踪
 
 所有状态记录在 `project_state.json` 中，支持断点续跑。
+
+```json
+{
+  "project_name": "...",
+  "current_stage": "survey",
+  "autopilot": false,
+  "checkpoints_passed": [],
+  "created_at": "...",
+  "updated_at": "..."
+}
+```

@@ -1,4 +1,4 @@
-"""ARIA paper-service MCP Server 主入口
+"""Nexus paper-service MCP Server 主入口
 
 提供学术论文搜索、获取、验证、引用关系查询等工具。
 10 个数据源，五级瀑布流获取策略。
@@ -23,7 +23,7 @@ mcp = FastMCP(
 )
 
 # 全局配置路径
-GLOBAL_CONFIG_PATH = Path.home() / ".aria" / "global_config.json"
+GLOBAL_CONFIG_PATH = Path.home() / ".nexus" / "global_config.json"
 
 
 def load_config() -> dict:

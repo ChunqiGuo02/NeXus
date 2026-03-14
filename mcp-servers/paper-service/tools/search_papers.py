@@ -17,7 +17,7 @@ from sources import semantic_scholar, arxiv_source, crossref, openalex
 import json
 from pathlib import Path
 
-_CONFIG_PATH = Path.home() / ".aria" / "global_config.json"
+_CONFIG_PATH = Path.home() / ".nexus" / "global_config.json"
 
 
 def _get_s2_key() -> str | None:

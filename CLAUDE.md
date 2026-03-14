@@ -40,3 +40,16 @@ The `paper-service` MCP server provides:
 
 - `/full-research-pipeline` — Complete lifecycle: Survey → Ideate → Build → Write → Review
 - `/quick-survey` — Rapid overview in 1-3 minutes
+
+## Autopilot Mode
+
+Say **"autopilot"**, **"自动完成"**, or **"vibe research"** at any stage to let the agent proceed autonomously.
+All checkpoints will auto-approve while still outputting brief summaries for traceability.
+Say **"暂停"** or **"manual"** to resume manual control at any time.
+
+Safety guardrails remain active even in autopilot — file deletion, git operations, and bulk API calls still require confirmation.
+
+## 📱 Feishu/Lark Notifications (Optional)
+
+Configure `~/.nexus/global_config.json` with a Feishu webhook to receive mobile notifications at key pipeline stages.
+See `.agents/skills/feishu-notify/SKILL.md` for setup instructions. Zero impact when unconfigured.

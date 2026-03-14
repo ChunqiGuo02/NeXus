@@ -1,11 +1,17 @@
 <p align="center">
-  <h1 align="center">🎵 A.R.I.A.</h1>
+  <img src="assets/qbert_logo_animated.gif" width="180" alt="Nexus Logo">
+  <h1 align="center">Nexus</h1>
   <p align="center">
-    <strong>A</strong>cademic <strong>R</strong>esearch <strong>I</strong>ntelligent <strong>A</strong>ssistant
+    <strong>The Autonomous AI Co-Scientist</strong>
     <br />
-    <em>AI-powered full-lifecycle research partner</em>
+    <em>Accelerating discovery from literature to publication</em>
     <br /><br />
     <strong>Survey → Ideate → Experiment → Write → Review</strong>
+    <br /><br />
+    <a href="https://github.com/ChunqiGuo02/Nexus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Stars"></a>
+    <a href="https://github.com/ChunqiGuo02/Nexus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Forks"></a>
+    <a href="https://github.com/ChunqiGuo02/Nexus/issues"><img src="https://img.shields.io/github/issues/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Issues"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License"></a>
   </p>
 </p>
 
@@ -15,30 +21,42 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 
 ## ✨ What It Does
 
-```
-"帮我调研 attention mechanism 在城市计算中的应用"
-        │
-        ▼
-┌─ Phase 1: Foundation ──────────────────────┐
-│  📚 Literature Survey (8 data sources)     │
-│  ✅ Citation Verification (multi-source)   │
-│  📊 Evidence Extraction → Evidence Graph   │
-│  🧠 Knowledge Graph (auto-built)          │
-└────────────────────────────────────────────┘
-        │
-        ▼
-┌─ Phase 2: Thinking & Writing ──────────────┐
-│  💡 Idea Brainstorm (gap-driven)           │
-│  🔍 Novelty Check (prior art scan)        │
-│  📝 Paper Draft (story skeleton method)    │
-│  👥 Multi-Reviewer (parallel subagents)    │
-└────────────────────────────────────────────┘
-        │
-        ▼
-┌─ Phase 3: Experimentation ─────────────────┐
-│  🧪 Experiment Runner (code → results)     │
-│  📈 Result Analysis → Evidence Graph       │
-└────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Query(["💬 '帮我调研 attention mechanism 在城市计算中的应用'"])
+
+    subgraph P1 ["Phase 1: Foundation"]
+        direction TB
+        S["📚 Literature Survey (8 data sources)"]
+        V["✅ Citation Verification (multi-source)"]
+        E["📊 Evidence Extraction → Evidence Graph"]
+        K["🧠 Knowledge Graph (auto-built)"]
+        S --> V
+        V --> E
+        E --> K
+    end
+
+    subgraph P2 ["Phase 2: Thinking & Writing"]
+        direction TB
+        B["💡 Idea Brainstorm (gap-driven)"]
+        N["🔍 Novelty Check (prior art scan)"]
+        D["📝 Paper Draft (story skeleton method)"]
+        M["👥 Multi-Reviewer (parallel subagents)"]
+        B --> N
+        N --> D
+        D --> M
+    end
+
+    subgraph P3 ["Phase 3: Experimentation"]
+        direction TB
+        R["🧪 Experiment Runner (code → results)"]
+        A["📈 Result Analysis → Evidence Graph"]
+        R --> A
+    end
+
+    Query --> P1
+    P1 --> P2
+    P2 --> P3
 ```
 
 ## 🚀 Quick Start
@@ -46,8 +64,8 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 ### 1. Clone
 
 ```bash
-git clone https://github.com/ChunqiGuo02/ARIA.git
-cd ARIA
+git clone https://github.com/ChunqiGuo02/Nexus.git
+cd Nexus
 ```
 
 ### 2. Install MCP Server
@@ -70,7 +88,7 @@ Add to your MCP config (`mcp_config.json` or via settings):
   "mcpServers": {
     "paper-service": {
       "command": "python",
-      "args": ["/path/to/ARIA/mcp-servers/paper-service/server.py"]
+      "args": ["/path/to/Nexus/mcp-servers/paper-service/server.py"]
     }
   }
 }
@@ -85,10 +103,10 @@ Then open Antigravity **in the project directory**. Skills, Rules, and Workflows
 
 ```bash
 # Add MCP server
-claude mcp add paper-service python /path/to/ARIA/mcp-servers/paper-service/server.py
+claude mcp add paper-service python /path/to/Nexus/mcp-servers/paper-service/server.py
 
 # Open project
-cd ARIA
+cd Nexus
 claude
 ```
 
@@ -117,9 +135,9 @@ Claude Code reads `CLAUDE.md` at project root to discover capabilities.
 ## 📦 Project Structure
 
 ```
-ARIA/
+Nexus/
 ├── .agents/
-│   ├── skills/                    # 13 Skills (Markdown instructions for LLM)
+│   ├── skills/                    # 14 Skills (Markdown instructions for LLM)
 │   │   ├── omni-orchestrator/     # 🎯 Unified entry point + intent routing
 │   │   ├── literature-survey/     # 📚 End-to-end survey pipeline
 │   │   ├── citation-verifier/     # ✅ Multi-source citation verification
@@ -133,7 +151,8 @@ ARIA/
 │   │   ├── multi-reviewer/        # 👥 Parallel subagent peer review
 │   │   │   └── venue_rubrics/     # 13 conference/journal rubrics
 │   │   ├── experiment-runner/     # 🧪 Experiment lifecycle management
-│   │   └── repo-architecture/     # 🏗️ Module boundary enforcement
+│   │   ├── repo-architecture/     # 🏗️ Module boundary enforcement
+│   │   └── feishu-notify/         # 📱 Feishu/Lark push & interactive notifications
 │   │
 │   ├── rules/                     # 3 Rules (always-on constraints)
 │   │   ├── citation-integrity.md  # All citations must be verified
@@ -209,7 +228,7 @@ ARIA/
 
 ## ⚙️ Configuration
 
-First-run setup creates `~/.aria/global_config.json`:
+First-run setup creates `~/.nexus/global_config.json`:
 
 ```json
 {
@@ -239,6 +258,39 @@ Paper Writing → Multi-Review → Revision
 Search → Top 10 by citations → Brief overview (1-3 minutes)
 ```
 
+### 🤖 Autopilot Mode
+
+Say **"autopilot"**, **"自动完成"**, or **"vibe research"** at any stage:
+
+```
+你: 帮我调研 urban computing
+AI: [Survey 完成，等待 Scope Freeze...]
+你: autopilot
+AI: ✅ Autopilot ON. 后续卡点自动通过，随时说"暂停"恢复手动。
+    [自动继续 → Corpus Freeze → Ideate → Novelty Check → Write → Review...]
+```
+
+- All checkpoints auto-approve with brief summaries
+- Safety guardrails: file deletion, git ops, bulk API calls still require confirmation
+- Auto-stops after 2 review-revise rounds or if scores plateau
+
+### 📱 Feishu/Lark Notifications (Optional)
+
+Get mobile push notifications at key pipeline stages. Add to `~/.nexus/global_config.json`:
+
+```json
+{
+  "feishu": {
+    "mode": "push",
+    "webhook_url": "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_ID"
+  }
+}
+```
+
+- **Push mode**: One-way status cards (survey done, review scored, errors)
+- **Interactive mode**: Two-way approval via OpenClaw Feishu plugin
+- Zero impact when unconfigured
+
 ## 📄 License
 
 MIT License — see [LICENSE](LICENSE).
@@ -246,5 +298,5 @@ MIT License — see [LICENSE](LICENSE).
 ---
 
 <p align="center">
-  <em>A.R.I.A. — Your research, amplified.</em>
+  <em>Nexus — Your research, amplified.</em>
 </p>
