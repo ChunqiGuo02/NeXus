@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/qbert_logo_animated.gif" width="180" alt="Nexus Logo">
+  <img src="assets/nexus_logo.gif" width="180" alt="Nexus Logo">
   <h1 align="center">Nexus</h1>
   <p align="center">
     <strong>The Autonomous AI Co-Scientist</strong>

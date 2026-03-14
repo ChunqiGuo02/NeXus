@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-生成极简扁平方块风格的 Q*bert Logo（静态 PNG + 动态 GIF）.
+生成极简扁平方块风格的Logo（静态 PNG + 动态 GIF）.
 
-Q*bert 核心特征：
+核心特征：
 - 圆润的橙色身体
 - 标志性的向前突出的长管状鼻子 / 嘴巴
 - 两只大大的白色圆眼（黑色瞳孔）
@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw
 import os
 
 # ── 配色 ──────────────────────────────────────────────────────────
-BODY       = (215, 120, 50)     # Q*bert 经典橙色
+BODY       = (215, 120, 50)     # 橙色
 BODY_DARK  = (180, 95, 35)      # 深橙（脚、鼻子底部）
 NOSE       = (200, 108, 42)     # 鼻子色
 EYE_WHITE  = (255, 255, 255)    # 眼白
@@ -50,7 +50,7 @@ def _get_outline_blocks(blocks: list[tuple[int, int]]) -> list[tuple[int, int]]:
 def draw_qbert(oy: int = 0, blink: bool = False, squash: bool = False,
                mouth_open: bool = False, nose_dy: int = 0) -> Image.Image:
     """
-    在像素网格上绘制 Q*bert。
+    在像素网格上绘制 Logo。
 
     nose_dy: 鼻子整体微小垂直偏移（-1=上移一格，+1=下移一格），
              保持朝右下的形状不变，只做位移。
@@ -198,6 +198,6 @@ def generate_gif(output_path: str):
 
 if __name__ == "__main__":
     out_dir = os.path.dirname(os.path.abspath(__file__))
-    generate_static(os.path.join(out_dir, "qbert_logo_flat.png"))
-    generate_gif(os.path.join(out_dir, "qbert_logo_animated.gif"))
+    generate_static(os.path.join(out_dir, "logo.png"))
+    generate_gif(os.path.join(out_dir, "logo.gif"))
     print("\n✅ Done!")
