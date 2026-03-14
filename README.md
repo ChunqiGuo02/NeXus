@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="assets/nexus_logo.gif" width="180" alt="Nexus Logo">
-  <h1 align="center">Nexus</h1>
-  <p align="center">
-    <strong>The Autonomous AI Co-Scientist</strong>
-    <br />
-    <em>Accelerating discovery from literature to publication</em>
-    <br /><br />
-    <strong>Survey → Ideate → Experiment → Write → Review</strong>
-    <br /><br />
-    <a href="https://github.com/ChunqiGuo02/Nexus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Stars"></a>
-    <a href="https://github.com/ChunqiGuo02/Nexus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Forks"></a>
-    <a href="https://github.com/ChunqiGuo02/Nexus/issues"><img src="https://img.shields.io/github/issues/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Issues"></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License"></a>
-  </p>
+  <img src="assets/nexus_logo.gif" width="80" alt="Nexus Logo" style="vertical-align: middle;">
+  &nbsp;&nbsp;
+  <strong style="font-size: 2em;">Nexus</strong>
+  <br />
+  <strong>The Autonomous AI Co-Scientist</strong>
+  <br />
+  <em>Accelerating discovery from literature to publication</em>
+  <br /><br />
+  <strong>Survey → Ideate → Experiment → Write → Review</strong>
+  <br /><br />
+  <a href="https://github.com/ChunqiGuo02/Nexus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Stars"></a>
+  <a href="https://github.com/ChunqiGuo02/Nexus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Forks"></a>
+  <a href="https://github.com/ChunqiGuo02/Nexus/issues"><img src="https://img.shields.io/github/issues/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Issues"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License"></a>
 </p>
 
 ---
