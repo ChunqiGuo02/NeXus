@@ -1,7 +1,8 @@
 <div align="center">
-  <img src="assets/nexus_logo.gif" width="96" alt="Nexus Logo" style="vertical-align: middle;">
-  &nbsp;&nbsp;&nbsp;
-  <span style="font-size: 3.5em; font-weight: bold; vertical-align: middle;">Nexus</span>
+  <h1>
+    <img src="assets/nexus_logo.gif" width="96" alt="Nexus Logo" align="center" style="vertical-align: middle;">
+    &nbsp;&nbsp;&nbsp;Nexus
+  </h1>
 </div>
 <p align="center">
   <strong>The Autonomous AI Co-Scientist</strong>
