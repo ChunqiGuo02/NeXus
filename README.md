@@ -1,6 +1,8 @@
-<h1 align="center">
-  <img src="assets/nexus_logo.gif" width="64" alt="Nexus Logo" align="center"> Nexus
-</h1>
+<div align="center">
+  <img src="assets/nexus_logo.gif" width="96" alt="Nexus Logo" style="vertical-align: middle;">
+  &nbsp;&nbsp;&nbsp;
+  <span style="font-size: 3.5em; font-weight: bold; vertical-align: middle;">Nexus</span>
+</div>
 <p align="center">
   <strong>The Autonomous AI Co-Scientist</strong>
   <br />
@@ -21,41 +23,42 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 ## ✨ What It Does
 
 ```mermaid
-flowchart TD
-    Query(["💬 '帮我调研 attention mechanism 在城市计算中的应用'"])
+flowchart LR
+    Query([💬 User Query])
+    Feishu[[📱 Feishu/Lark<br>Notifications & Approvals]]
 
     subgraph P1 ["Phase 1: Foundation"]
         direction TB
-        S["📚 Literature Survey (8 data sources)"]
-        V["✅ Citation Verification (multi-source)"]
-        E["📊 Evidence Extraction → Evidence Graph"]
-        K["🧠 Knowledge Graph (auto-built)"]
-        S --> V
-        V --> E
-        E --> K
+        S["📚 Literature Survey"]
+        V["✅ Citation Verification"]
+        E["📊 Evidence Extraction"]
+        K["🧠 Knowledge Graph"]
+        S --> V --> E --> K
     end
 
-    subgraph P2 ["Phase 2: Thinking & Writing"]
+    subgraph P2 ["Phase 2: Ideate & Write"]
         direction TB
-        B["💡 Idea Brainstorm (gap-driven)"]
-        N["🔍 Novelty Check (prior art scan)"]
-        D["📝 Paper Draft (story skeleton method)"]
-        M["👥 Multi-Reviewer (parallel subagents)"]
-        B --> N
-        N --> D
-        D --> M
+        B["💡 Idea Brainstorm"]
+        N["🔍 Novelty Check"]
+        D["📝 Paper Draft"]
+        M["👥 Multi-Reviewer"]
+        B --> N --> D --> M
     end
 
-    subgraph P3 ["Phase 3: Experimentation"]
-        direction TB
-        R["🧪 Experiment Runner (code → results)"]
-        A["📈 Result Analysis → Evidence Graph"]
+    subgraph P3 ["Phase 3: Experiment"]
+        R["🧪 Experiment Runner"]
+        A["📈 Result Analysis"]
         R --> A
     end
 
     Query --> P1
     P1 --> P2
     P2 --> P3
+    P3 -.->|Revise| P2
+
+    P1 -.-> Feishu
+    P2 -.-> Feishu
+    P3 -.-> Feishu
 ```
 
 ## 🚀 Quick Start
