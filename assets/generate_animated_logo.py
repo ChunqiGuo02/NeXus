@@ -26,7 +26,8 @@ BG         = (0, 0, 0, 0)       # 透明背景
 # ── 网格参数 ──────────────────────────────────────────────────────
 PX = 24       # 每个像素块大小
 GW = 16       # 网格宽
-GH = 18       # 网格高
+GH = 20       # 网格高（预留跳跃空间）
+BASE_Y = 3    # 角色基础 Y 偏移（防止跳跃时超出顶部）
 
 
 def _fill(draw, blocks, color):
@@ -58,7 +59,7 @@ def draw_qbert(oy: int = 0, blink: bool = False, squash: bool = False,
     img = Image.new("RGBA", (GW * PX, GH * PX), BG)
     draw = ImageDraw.Draw(img)
 
-    o = oy
+    o = oy + BASE_Y
 
     if squash:
         # 压扁帧
@@ -198,6 +199,6 @@ def generate_gif(output_path: str):
 
 if __name__ == "__main__":
     out_dir = os.path.dirname(os.path.abspath(__file__))
-    generate_static(os.path.join(out_dir, "logo.png"))
-    generate_gif(os.path.join(out_dir, "logo.gif"))
+    generate_static(os.path.join(out_dir, "nexus_logo.png"))
+    generate_gif(os.path.join(out_dir, "nexus_logo.gif"))
     print("\n✅ Done!")
