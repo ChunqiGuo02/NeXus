@@ -30,6 +30,11 @@ flowchart TD
 
     Q(["💬 User Query"])
 
+    %% Implicit column anchor to FORCE vertical stacking
+    Q --- P1
+    P1 ~~~ P2
+    P2 ~~~ P3
+
     subgraph P1 ["Phase 1: Foundation"]
         direction LR
         S["📚 Literature Survey"]:::node
@@ -58,8 +63,7 @@ flowchart TD
         R --> A -.-> F3
     end
 
-    %% Main vertical flow
-    Q --> P1
+    %% Actual logic links
     P1 ==> P2
     P2 ==> P3
     P3 -.->|Revise Draft| P2
