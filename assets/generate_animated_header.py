@@ -30,19 +30,19 @@ def generate_header_svg():
         gif_b64 = base64.b64encode(f.read()).decode("ascii")
 
     W = 980
-    H = 150
-    gif_w = 60
-    gif_h = 72
+    H = 180
+    gif_w = 84
+    gif_h = 100
 
-    title_y = 100
-    top_y = 83
-    bottom_y = 130
-    hop_h = 35
+    title_y = 115
+    top_y = 80
+    bottom_y = 150
+    hop_h = 45
     big_hop_h = 25
 
-    right_x = 900
-    left_x = 180
-    bottom_x = 60
+    right_x = 760
+    left_x = 220
+    bottom_x = 100
     n_hops = 8
     hop_w = (right_x - left_x) / n_hops
 
@@ -131,7 +131,7 @@ def generate_header_svg():
      viewBox="0 0 {W} {H}"
      role="img" aria-label="NeXus : the Next-gen Unified Sub-researcher">
 
-  <text x="{W - 20}" y="{title_y}" text-anchor="end"
+  <text x="{W / 2}" y="{title_y}" text-anchor="middle"
     font-family="Segoe UI, Arial, sans-serif" fill="#0f172a">
     <tspan font-weight="800" font-size="46">NeXus</tspan>
     <tspan font-weight="600" font-size="34"> : </tspan>
