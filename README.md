@@ -25,7 +25,6 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 flowchart LR
     classDef entry fill:#0f172a,color:#ffffff,stroke:none,rx:10,ry:10,font-weight:bold
     classDef step fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,rx:8,ry:8,color:#1d4ed8,font-weight:600
-    classDef note fill:#fffbeb,stroke:#f59e0b,stroke-width:1.5px,stroke-dasharray: 4 4,rx:6,ry:6,color:#b45309
     
     style Discovery fill:#f8fafc,stroke:#cbd5e1,stroke-width:1.5px,stroke-dasharray: 5 5,rx:12,ry:12
     style Ideation fill:#f8fafc,stroke:#cbd5e1,stroke-width:1.5px,stroke-dasharray: 5 5,rx:12,ry:12
@@ -62,12 +61,8 @@ flowchart LR
     Discovery --> Ideation
     Ideation --> Validation
 
-    %% Outputs & Artifacts
-    K -.-> N1[["📌 Scope Freeze"]]:::note
-    M -.-> N2[["📊 Review Score"]]:::note
-    A -.-> N3[["✅ Done Notification"]]:::note
-
     %% Auto-revision loops
+
     M -. "Revise" .-> D
     A -. "Update Draft" .-> D
 ```
@@ -150,7 +145,7 @@ Claude Code reads `CLAUDE.md` at project root to discover capabilities.
 ```
 Nexus/
 ├── .agents/
-│   ├── skills/                    # 14 Skills (Markdown instructions for LLM)
+│   ├── skills/                    # 18 Skills (Markdown instructions for LLM)
 │   │   ├── omni-orchestrator/     # 🎯 Unified entry point + intent routing
 │   │   ├── literature-survey/     # 📚 End-to-end survey pipeline
 │   │   ├── citation-verifier/     # ✅ Multi-source citation verification
@@ -160,21 +155,35 @@ Nexus/
 │   │   ├── idea-brainstorm/       # 💡 Gap-driven idea generation
 │   │   ├── novelty-checker/       # 🔍 Prior art risk assessment
 │   │   ├── deep-dive/             # 🔬 In-depth paper analysis
-│   │   ├── paper-writing/         # 📝 Draft generation (story skeleton)
-│   │   ├── multi-reviewer/        # 👥 Parallel subagent peer review
-│   │   │   └── venue_rubrics/     # 13 conference/journal rubrics
-│   │   ├── experiment-runner/     # 🧪 Experiment lifecycle management
+│   │   ├── paper-writing/         # 📝 Dual-model debate drafting + Overleaf
+│   │   │   └── overleaf_setup.md  # LaTeX/Overleaf integration guide
+│   │   ├── multi-reviewer/        # 👥 Multi-model parallel peer review
+│   │   │   └── venue_rubrics/     # 12 conference/journal rubrics
+│   │   ├── experiment-runner/     # 🧪 Experiment + SSH remote + AutoDL
 │   │   ├── repo-architecture/     # 🏗️ Module boundary enforcement
-│   │   └── feishu-notify/         # 📱 Feishu/Lark push & interactive notifications
+│   │   ├── code-review/           # 🔎 Code review for correctness
+│   │   ├── safe-refactor/         # 🔧 Safe, reviewable refactors
+│   │   ├── systematic-debugging/  # 🐛 Root-cause-first debugging
+│   │   ├── test-author/           # 🧪 Test writing (repo-style)
+│   │   └── verification-runner/   # ✅ Verify implementation claims
 │   │
-│   ├── rules/                     # 3 Rules (always-on constraints)
+│   ├── rules/                     # 7 Rules (always-on constraints)
 │   │   ├── citation-integrity.md  # All citations must be verified
 │   │   ├── evidence-discipline.md # All claims need evidence cards
-│   │   └── access-state-policy.md # Paper access level policies
+│   │   ├── access-state-policy.md # Paper access level policies
+│   │   ├── engineering-baseline.md # Small diffs, follow conventions
+│   │   ├── repo-conventions.md    # Python/pytest/ruff/mypy standards
+│   │   ├── verification-policy.md # Every change needs verification evidence
+│   │   └── model-routing.md       # Multi-model stage recommendation
 │   │
-│   └── workflows/                 # 2 Workflows (orchestration)
-│       ├── full-research-pipeline.md  # Complete lifecycle
-│       └── quick-survey.md            # Rapid survey (1-3 min)
+│   └── workflows/                 # 7 Workflows (orchestration)
+│       ├── full-research-pipeline.md  # Complete research lifecycle
+│       ├── quick-survey.md            # Rapid survey (1-3 min)
+│       ├── bugfix-safe.md             # Evidence-driven bug fixing
+│       ├── hack.md                    # Fast, low-ceremony implementation
+│       ├── orchestrate-task.md        # Multi-workstream task planning
+│       ├── review-changes.md          # Code change review
+│       └── verify-result.md           # Result verification
 │
 ├── mcp-servers/
 │   └── paper-service/             # MCP Server (Python/FastMCP)
@@ -227,7 +236,7 @@ Nexus/
 
 ## 👥 Multi-Reviewer: Venue Rubrics
 
-13 review rubrics covering AI/ML conferences and cross-domain journals:
+12 review rubrics covering AI/ML conferences and cross-domain journals:
 
 | Category | Venues | Key Focus |
 |----------|--------|-----------|
@@ -288,22 +297,30 @@ AI: ✅ Autopilot ON. 后续卡点自动通过，随时说"暂停"恢复手动�
 - Safety guardrails: file deletion, git ops, bulk API calls still require confirmation
 - Auto-stops after 2 review-revise rounds or if scores plateau
 
-### 📱 Feishu/Lark Notifications (Optional)
 
-Get mobile push notifications at key pipeline stages. Add to `~/.nexus/global_config.json`:
 
-```json
-{
-  "feishu": {
-    "mode": "push",
-    "webhook_url": "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_ID"
-  }
-}
-```
+## 🔒 Privacy & Security
 
-- **Push mode**: One-way status cards (survey done, review scored, errors)
-- **Interactive mode**: Two-way approval via OpenClaw Feishu plugin
-- Zero impact when unconfigured
+> [!IMPORTANT]
+> Nexus 是纯本地的 agent skill pack，**不收集任何数据**。但使用过程中会与外部服务交互，请注意以下事项。
+
+**数据流透明度**：
+
+| 数据 | 发送到哪里 | 目的 |
+|------|----------|------|
+| 论文搜索查询 | Semantic Scholar, arXiv, OpenAlex, CrossRef | 文献检索 |
+| 邮箱（可选） | Unpaywall API `mailto` 参数 | 提高 API 配额 |
+| 论文草稿/idea | 你使用的 LLM 提供商（OpenAI, Anthropic, Google 等） | 写作/审稿 |
+| SSH 连接信息 | 存储在本地 `~/.nexus/global_config.json` | 远程实验 |
+
+**凭据安全**：
+- `global_config.json` 以**明文**存储 API Key 和 SSH 信息，已加入 `.gitignore`
+- Overleaf Cookie 等价于登录凭证，**请勿粘贴到聊天窗口**，仅在 VS Code 插件中使用
+- 未发表的研究 idea（`hypothesis_board.json`）和论文草稿会发送到 LLM API，请确认你的 LLM 提供商数据政策
+
+**Shadow Library**：
+- Sci-Hub / LibGen 访问功能**默认关闭**（`shadow_library_enabled: false`）
+- 在部分地区使用可能涉及法律风险，请自行评估合规性后再开启
 
 ## 📄 License
 

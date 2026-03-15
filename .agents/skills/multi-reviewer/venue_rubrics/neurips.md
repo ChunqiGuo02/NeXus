@@ -44,3 +44,14 @@ description: NeurIPS 评审标准 (Neural Information Processing Systems)
 3. 缺少 ablation study
 4. Claims 过强但证据不足
 5. 与已有工作的差异不清晰
+
+## 历史分数分布（Anchor 校准用）
+
+| 指标 | 值 |
+|------|----|
+| Accept 线 | ~6.0 (top 25%) |
+| Spotlight | ~7.0 (top 5%) |
+| Oral | ~8.0 (top 1%) |
+| 分数均值 | 5.2 |
+| 标准差 | 1.8 |
+| 录取率 | ~25% |

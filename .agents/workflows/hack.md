@@ -1,5 +1,5 @@
 ---
-description: 
+description: 快速低仪式实现或修复，适合小型局部任务。
 ---
 
 Execute a fast, low-ceremony implementation or bug fix.

@@ -41,5 +41,24 @@ knowledge_graph.json
 hypothesis_board.json
 
 # Test artifacts
-.tmp_wheel/
+.tmp_wheel*/
 *.whl
+
+# Type checking / lint cache
+.mypy_cache/
+.ruff_cache/
+
+# Experiment large files (user data)
+experiments/*/checkpoints/
+experiments/*/data/
+workspace/*/checkpoints/
+
+# Sensitive credentials (API keys, SSH info, cookies)
+global_config.json
+.nexus/
+
+# User research data (unpublished)
+bib/
+artifacts/draft*.tex
+artifacts/review_report.json
+artifacts/story_skeleton.json

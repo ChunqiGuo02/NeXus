@@ -1,5 +1,5 @@
 ---
-description: 
+description: 用证据驱动循环修复 bug：假设→验证→最小修复→确认。
 ---
 
 Resolve a bug using an evidence-driven loop.

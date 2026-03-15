@@ -17,14 +17,8 @@ description: 完整研究生命周期流水线：Survey → Ideate → Build →
 
 ```
 读取 project_state.json → autopilot 字段
-读取 global_config.json → feishu 字段
-  │
-  ├─ feishu 已配置 → 发送飞书通知卡片（参考 feishu-notify skill）
-  │   ├─ mode="interactive" + autopilot=false → 等待飞书审批
-  │   └─ mode="push" → 仅推送，不等待
-  │
   ├─ autopilot=true  → 输出 1-2 行 summary → 自动继续
-  └─ autopilot=false → 展示详情 → 等待用户输入（终端或飞书）
+  └─ autopilot=false → 展示详情 → 等待用户输入
 ```
 
 用户可在任意阶段说 "autopilot" 或 "暂停" 来切换模式。

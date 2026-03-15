@@ -1,5 +1,5 @@
 ---
-description: 
+description: 审查代码变更的正确性、回归、边界情况和风格问题。
 ---
 
 Review the proposed changes only.

@@ -1,5 +1,5 @@
 ---
-description: 
+description: 验证实现声明是否真实：跑测试、lint、构建、运行时检查。
 ---
 
 Verify the claimed result only.

@@ -1,5 +1,5 @@
 ---
-description: 
+description: 将复杂任务拆分为可并行的工作流，分配给多个 agent。
 ---
 
 Use Planning mode.

@@ -44,3 +44,15 @@ description: ICLR 评审标准 (International Conference on Learning Representat
 3. 实验不够全面，缺少关键 baseline
 4. 写作混乱，notation 不一致
 5. 与同期工作冲突但未讨论
+
+## 历史分数分布（Anchor 校准用）
+
+| 指标 | 值 |
+|------|----|
+| Accept 线 | ~6.0 |
+| Oral | ~7.5 (top 1.5%) |
+| Spotlight | ~7.0 (top 5%) |
+| Poster | ~6.0 (top 30%) |
+| 分数均值 | 5.0 |
+| 标准差 | 1.9 |
+| 录取率 | ~32% |

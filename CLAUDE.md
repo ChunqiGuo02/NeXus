@@ -43,13 +43,4 @@ The `paper-service` MCP server provides:
 
 ## Autopilot Mode
 
-Say **"autopilot"**, **"自动完成"**, or **"vibe research"** at any stage to let the agent proceed autonomously.
-All checkpoints will auto-approve while still outputting brief summaries for traceability.
-Say **"暂停"** or **"manual"** to resume manual control at any time.
-
-Safety guardrails remain active even in autopilot — file deletion, git operations, and bulk API calls still require confirmation.
-
-## 📱 Feishu/Lark Notifications (Optional)
-
-Configure `~/.nexus/global_config.json` with a Feishu webhook to receive mobile notifications at key pipeline stages.
-See `.agents/skills/feishu-notify/SKILL.md` for setup instructions. Zero impact when unconfigured.
+Say **"autopilot"** / **"自动完成"** / **"vibe research"** to auto-approve checkpoints. Say **"暂停"** to resume manual control. See `.agents/skills/omni-orchestrator/SKILL.md` for full details.

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import httpx
 import pytest
@@ -19,10 +21,10 @@ class DummyMCP:
     """Minimal MCP stub used to capture registered tool callables."""
 
     def __init__(self) -> None:
-        self.tools: dict[str, object] = {}
+        self.tools: dict[str, Callable[..., Any]] = {}
 
-    def tool(self):
-        def decorator(fn):
+    def tool(self) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+        def decorator(fn: Callable[..., Any]) -> Callable[..., Any]:
             self.tools[fn.__name__] = fn
             return fn
 
@@ -56,7 +58,7 @@ def _response(
 @pytest.mark.asyncio
 async def test_get_citations_invalid_direction_raises_value_error() -> None:
     mcp = DummyMCP()
-    get_citations_tool.register(mcp)
+    get_citations_tool.register(mcp)  # type: ignore[arg-type]
     get_citations = mcp.tools["get_citations"]
 
     with pytest.raises(ValueError, match="Invalid direction"):
@@ -147,7 +149,7 @@ async def test_fetch_paper_uses_openalex_fallback_without_email(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     mcp = DummyMCP()
-    fetch_paper_tool.register(mcp)
+    fetch_paper_tool.register(mcp)  # type: ignore[arg-type]
     fetch_paper = mcp.tools["fetch_paper"]
 
     monkeypatch.setattr(
