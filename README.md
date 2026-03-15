@@ -1,12 +1,12 @@
 <img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo" align="left" style="margin-right: 20px;">
 
-<h1 align="right">NeXus : <em>the Next-gen Unified Sub-researcher</em></h1>
+<p align="right" style="font-size: 44px; margin: 0;"><strong>NeXus : <em>the Next-gen Unified Sub-researcher</em></strong></p>
 
 <div align="right">
-  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="28" alt="Stars Badge"/></a>
-  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/network/members"><img src="https://img.shields.io/github/forks/abhisheknaiidu/awesome-github-profile-readme?color=8b5cf6" height="28" alt="Forks Badge"/></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="28" alt="License"></a>
+  <a href="https://github.com/ChunqiGuo02/NeXus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/NeXus?color=3b82f6" height="28" alt="Stars Badge"/></a>
+  <a href="https://github.com/ChunqiGuo02/NeXus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/NeXus?color=8b5cf6" height="28" alt="Forks Badge"/></a>
   <a href="https://x.com/Chunqi_Guo"><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="28" alt="Follow on X" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="28" alt="License"></a>
   <br />
   <strong>Query → Survey → Brainstorm → Experiment → Write → Review</strong>
 </div>
