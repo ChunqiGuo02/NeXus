@@ -1,7 +1,7 @@
 <div align="center">
   <h1 style="border-bottom: none;">
     <img src="assets/nexus_logo.gif" width="96" alt="NeXus Logo" align="center" style="vertical-align: middle;">
-    &nbsp;&nbsp;NeXus : &nbsp;<small style="color: #666;">the Next-gen Unified Sub-researcher</small>
+    &nbsp;&nbsp;NeXus : &nbsp;<em><small style="color: #666;">the Next-gen Unified Sub-researcher</small></em>
   </h1>
 </div>
 <p align="center">
