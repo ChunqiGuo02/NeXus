@@ -31,11 +31,11 @@ def generate_header_svg():
 
     W = 980
     H = 150
-    gif_w = 48
-    gif_h = 58
+    gif_w = 60
+    gif_h = 72
 
-    title_y = 95
-    top_y = 85
+    title_y = 100
+    top_y = 83
     bottom_y = 130
     hop_h = 35
     big_hop_h = 25
@@ -131,12 +131,11 @@ def generate_header_svg():
      viewBox="0 0 {W} {H}"
      role="img" aria-label="NeXus : the Next-gen Unified Sub-researcher">
 
-  <!-- 标题文字 -->
   <text x="{W - 20}" y="{title_y}" text-anchor="end"
-    font-family="Segoe UI, Arial, sans-serif" font-size="42"
-    font-weight="700" fill="#0f172a">
-    <tspan>NeXus : </tspan>
-    <tspan font-style="italic" font-weight="400" fill="#555">the Next-gen Unified Sub-researcher</tspan>
+    font-family="Segoe UI, Arial, sans-serif" fill="#0f172a">
+    <tspan font-weight="800" font-size="46">NeXus</tspan>
+    <tspan font-weight="600" font-size="34"> : </tspan>
+    <tspan font-style="italic" font-weight="400" font-size="22" fill="#555">the Next-gen Unified Sub-researcher</tspan>
   </text>
 
   <!-- Q*bert 面朝左 -->
