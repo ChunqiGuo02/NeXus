@@ -1,15 +1,17 @@
 <div align="center">
-  <img src="assets/nexus_logo.gif" width="96" alt="Nexus Logo" align="center" style="vertical-align: middle;">
-  &nbsp;&nbsp;<span style="font-size: 2.2em; font-weight: bold;">NeXus :</span> &nbsp;<span style="color: #666; font-size: 1.2em; font-weight: bold;">the Next-gen Unified Sub-researcher</span>
+  <h1 style="border-bottom: none;">
+    <img src="assets/nexus_logo.gif" width="96" alt="NeXus Logo" align="center" style="vertical-align: middle;">
+    &nbsp;&nbsp;NeXus : &nbsp;<small style="color: #666;">the Next-gen Unified Sub-researcher</small>
+  </h1>
 </div>
 <p align="center">
   <em>"First to the KEY!"</em>
   <br /><br />
   <strong>Query → Survey → Brainstorm → Experiment → Write → Review</strong>
   <br /><br />
-  <a href="https://github.com/ChunqiGuo02/Nexus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Stars"></a>
-  <a href="https://github.com/ChunqiGuo02/Nexus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Forks"></a>
-  <a href="https://github.com/ChunqiGuo02/Nexus/issues"><img src="https://img.shields.io/github/issues/ChunqiGuo02/Nexus?style=flat-square&color=blue" alt="Issues"></a>
+  <a href="https://github.com/ChunqiGuo02/NeXus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/NeXus?style=flat-square&color=blue" alt="Stars"></a>
+  <a href="https://github.com/ChunqiGuo02/NeXus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/NeXus?style=flat-square&color=blue" alt="Forks"></a>
+  <a href="https://github.com/ChunqiGuo02/NeXus/issues"><img src="https://img.shields.io/github/issues/ChunqiGuo02/NeXus?style=flat-square&color=blue" alt="Issues"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License"></a>
 </p>
 
@@ -48,8 +50,8 @@ flowchart TD
 ### 1. Clone
 
 ```bash
-git clone https://github.com/ChunqiGuo02/Nexus.git
-cd Nexus
+git clone https://github.com/ChunqiGuo02/NeXus.git
+cd NeXus
 ```
 
 ### 2. Install MCP Server
@@ -72,7 +74,7 @@ Add to your MCP config (`mcp_config.json` or via settings):
   "mcpServers": {
     "paper-service": {
       "command": "python",
-      "args": ["/path/to/Nexus/mcp-servers/paper-service/server.py"]
+      "args": ["/path/to/NeXus/mcp-servers/paper-service/server.py"]
     }
   }
 }
@@ -87,10 +89,10 @@ Then open Antigravity **in the project directory**. Skills, Rules, and Workflows
 
 ```bash
 # Add MCP server
-claude mcp add paper-service python /path/to/Nexus/mcp-servers/paper-service/server.py
+claude mcp add paper-service python /path/to/NeXus/mcp-servers/paper-service/server.py
 
-# Open project
-cd Nexus
+# 对于 Claude Code (需要在 NeXus 根目录运行)
+cd NeXus
 claude
 ```
 
@@ -119,7 +121,7 @@ Claude Code reads `CLAUDE.md` at project root to discover capabilities.
 ## 📦 Project Structure
 
 ```
-Nexus/
+NeXus/
 ├── .agents/
 │   ├── skills/                    # 18 Skills (Markdown instructions for LLM)
 │   │   ├── omni-orchestrator/     # 🎯 Unified entry point + intent routing
@@ -278,7 +280,7 @@ AI: ✅ Autopilot ON. 后续卡点自动通过，随时说"暂停"恢复手动�
 ## 🔒 Privacy & Security
 
 > [!IMPORTANT]
-> Nexus 是纯本地的 agent skill pack，**不收集任何数据**。但使用过程中会与外部服务交互，请注意以下事项。
+> NeXus 是纯本地的 agent skill pack，**不收集任何数据**。但使用过程中会与外部服务交互，请注意以下事项。
 
 **数据流透明度**：
 
@@ -305,5 +307,5 @@ MIT License — see [LICENSE](LICENSE).
 ---
 
 <p align="center">
-  <em>Nexus — First to the KEY!</em>
+  <em>NeXus — First to the KEY!</em>
 </p>

@@ -1,4 +1,4 @@
-"""Nexus paper-service MCP Server 主入口
+"""NeXus paper-service MCP Server 主入口
 
 提供学术论文搜索、获取、验证、引用关系查询等工具。
 10 个数据源，五级瀑布流获取策略。
