@@ -33,7 +33,7 @@ flowchart TD
     
     P1["📚 Phase 1: Discovery<br>━━━━━━━━━━━━━<br>🔍 Literature Survey<br>✅ Citation Verify<br>📑 Extract Evidence<br>🧠 Knowledge Graph"]:::phase1
     
-    P2["💡 Phase 2: Ideat2Draft<br>━━━━━━━━━━━━━<br>🎯 Brainstorm Ideas<br>👾 Novelty Check<br>📝 Dual-Model Draft"]:::phase2
+    P2["💡 Phase 2: Idea2Draft<br>━━━━━━━━━━━━━<br>🎯 Brainstorm Ideas<br>👾 Novelty Check<br>📝 Dual-Model Draft"]:::phase2
     
     P3["🧪 Phase 3: Validation<br>━━━━━━━━━━━━━<br>💻 Local / SSH<br>⚙️ Run Experiments<br>📊 Analyze Results"]:::phase3
 
