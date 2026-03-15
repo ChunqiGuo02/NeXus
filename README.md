@@ -22,51 +22,29 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 ## ✨ What It Does
 
 ```mermaid
-flowchart TD
-    classDef entry fill:#0f172a,color:#ffffff,stroke:none,rx:10,ry:10,font-weight:bold,font-size:16px
-    classDef step fill:#eff6ff,stroke:#2563eb,stroke-width:2px,rx:8,ry:8,color:#1e3a8a,font-weight:bold
-    classDef review fill:#fef3c7,stroke:#d97706,stroke-width:2px,rx:8,ry:8,color:#92400e,font-weight:bold
-    classDef metric fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px,rx:5,ry:5,color:#374151,font-size:12px
+flowchart LR
+    classDef entry fill:#0f172a,color:#ffffff,stroke:none,rx:8,ry:8,font-weight:bold,font-size:15px
+    classDef phase1 fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,rx:8,ry:8,color:#0369a1,font-weight:600,font-size:14px
+    classDef phase2 fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,rx:8,ry:8,color:#854d0e,font-weight:600,font-size:14px
+    classDef phase3 fill:#dcfce7,stroke:#16a34a,stroke-width:2px,rx:8,ry:8,color:#15803d,font-weight:600,font-size:14px
+    classDef phase4 fill:#ffedd5,stroke:#ea580c,stroke-width:2px,rx:8,ry:8,color:#c2410c,font-weight:600,font-size:14px
     
     U(["👨‍💻 User Query"]):::entry
-
-    subgraph Phase1 ["📚 Phase 1: Discovery"]
-        direction LR
-        S["Literature Survey"]:::step --> V["Citation Verify"]:::step 
-        V --> E["Extract Evidence"]:::step 
-        E --> K["Knowledge Graph"]:::step
-    end
-
-    subgraph Phase2 ["💡 Phase 2: Ideation & Draft"]
-        direction LR
-        B["Brainstorm Ideas"]:::step --> N["Novelty Check"]:::step 
-        N --> D["Write Draft"]:::step
-    end
     
-    subgraph MultiReview ["👥 Multi-Agent Review"]
-        direction LR
-        M_A["Strict Reviewer\n(Claude Opus)"]:::review
-        M_B["Creative Reviewer\n(Gemini Pro)"]:::review
-        M_C["Reader Reviewer\n(GPT 5.4)"]:::review
-        Meta["Meta Reviewer\n(Decision)"]:::review
-        
-        M_A & M_B & M_C --> Meta
-    end
-
-    subgraph Phase3 ["🧪 Phase 3: Validation"]
-        direction LR
-        R["Run Experiment"]:::step --> A["Analyze Results"]:::step 
-    end
-
-    %% Main Flow
-    U --> Phase1
-    K --> Phase2
-    D --> MultiReview
-    Phase2 -. "Spawns Experiments" .-> Phase3
-    Phase3 -. "Results/Figures" .-> D
+    P1["📚 Phase 1: Discovery<br>━━━━━━━━━━━━━<br>🔍 Literature Survey<br>✅ Citation Verify<br>📑 Extract Evidence<br>🧠 Knowledge Graph"]:::phase1
     
-    %% Auto-revision loops
-    Meta -. "Must Fix\n(Revision Roadmap)" .-> D
+    P2["💡 Phase 2: Ideation & Draft<br>━━━━━━━━━━━━━<br>🎯 Brainstorm Ideas<br>🛡️ Novelty Check<br>📝 Dual-Model Draft"]:::phase2
+    
+    P3["🧪 Phase 3: Validation<br>━━━━━━━━━━━━━<br>💻 AutoDL / SSH<br>⚙️ Run Experiments<br>📊 Analyze Results"]:::phase3
+
+    P4["👥 Phase 4: Peer Review<br>━━━━━━━━━━━━━<br>👹 Strict (Claude Opus)<br>✨ Creative (Gemini Pro)<br>📖 Reader (GPT 5.4)<br>⚖️ Meta (Decision)"]:::phase4
+
+    U --> P1
+    P1 --> P2
+    P2 -->|"Spawns"| P3
+    P3 -->|"Figures"| P2
+    P2 -->|"Submit Draft"| P4
+    P4 -.->|"Revision Roadmap"| P2
 ```
 
 ## 🚀 Quick Start
