@@ -1,14 +1,15 @@
 <div align="right">
-  <h1 style="border-bottom: none; margin-bottom: 10px;">
-    <img src="assets/nexus_logo.gif" width="96" alt="NeXus Logo" style="vertical-align: middle;">
-    &nbsp;&nbsp;NeXus : &nbsp;<em><small style="color: #666;">the Next-gen Unified Sub-researcher</small></em>
-  </h1>
-  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="32" alt="Stars Badge"/></a>
-  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/network/members"><img src="https://img.shields.io/github/forks/abhisheknaiidu/awesome-github-profile-readme?color=8b5cf6" height="32" alt="Forks Badge"/></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="32" alt="License"></a>
-  <a href="https://x.com/Chunqi_Guo" ><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="32" alt="Follow on X" /></a>
-  <br />
-  <strong style="display: block; margin-top: 10px;">Query → Survey → Brainstorm → Experiment → Write → Review</strong>
+  <img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo" style="margin-bottom: 10px;">
+  <div style="font-size: 2.2em; font-weight: bold; margin-bottom: 5px;">
+    NeXus : &nbsp;<em><small style="color: #666; font-size: 0.6em; font-weight: normal;">the Next-gen Unified Sub-researcher</small></em>
+  </div>
+  <div style="margin-bottom: 15px;">
+    <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="36" alt="Stars Badge"/></a>
+    <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/network/members"><img src="https://img.shields.io/github/forks/abhisheknaiidu/awesome-github-profile-readme?color=8b5cf6" height="36" alt="Forks Badge"/></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="36" alt="License"></a>
+    <a href="https://x.com/Chunqi_Guo" ><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="36" alt="Follow on X" /></a>
+  </div>
+  <strong style="font-size: 1.1em;">Query → Survey → Brainstorm → Experiment → Write → Review</strong>
 </div>
 
 
