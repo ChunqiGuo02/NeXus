@@ -11,7 +11,7 @@
   <a href="https://github.com/ChunqiGuo02/NeXus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/NeXus?style=flat-square&color=purple" alt="Forks"></a>
   <a href="https://github.com/ChunqiGuo02/NeXus/issues"><img src="https://img.shields.io/github/issues/ChunqiGuo02/NeXus?style=flat-square&color=purple" alt="Issues"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License"></a>
-  <a href="https://x.com/Chunqi_Guo" ><img src="https://img.shields.io/twitter/follow/Chunqi_Guo.svg?style=social&logo=x" /> </a>
+  <a href="https://x.com/Chunqi_Guo" ><img src="https://img.shields.io/twitter/follow/Chunqi_Guo.svg?style=flat-square&logo=x&color=black" alt="Follow on X" /></a>
 </p>
 
 An **agent skill pack** that turns any LLM coding assistant (Claude Code, Opencode, Antigravity, etc.) into a full-stack academic research partner — from idea generation to paper writing and peer review simulation.
