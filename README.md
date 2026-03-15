@@ -1,6 +1,6 @@
-<img src="assets/nexus_header.svg" width="100%" alt="NeXus : the Next-gen Unified Sub-researcher" />
+<br /><img src="assets/nexus_header.svg" width="100%" alt="NeXus : the Next-gen Unified Sub-researcher" />
 
-<div align="right">
+<div align="center">
   <a href="https://github.com/ChunqiGuo02/NeXus/stargazers"><img src="https://img.shields.io/github/stars/ChunqiGuo02/NeXus?color=3b82f6" height="28" alt="Stars Badge"/></a>
   <a href="https://github.com/ChunqiGuo02/NeXus/network/members"><img src="https://img.shields.io/github/forks/ChunqiGuo02/NeXus?color=8b5cf6" height="28" alt="Forks Badge"/></a>
   <a href="https://x.com/Chunqi_Guo"><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="28" alt="Follow on X" /></a>
