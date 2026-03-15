@@ -1,6 +1,6 @@
 <p align="right">
   <br><img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo" align="left" />
-  <img src="assets/nexus_title.svg" width="980" alt="NeXus : the Next-gen Unified Sub-researcher" />
+  <img src="assets/nexus_title.svg" width="980" alt="NeXus : Next-gen Unified Sub-researcher" />
 </p>
 
 <div align="right">
