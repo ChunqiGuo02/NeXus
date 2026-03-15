@@ -23,31 +23,35 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 
 ```mermaid
 flowchart TD
-    classDef phase fill:#f0f4ff,stroke:#3b82f6,stroke-width:2px,rx:8,ry:8,font-weight:bold
-    classDef step fill:#eff6ff,stroke:#3b82f6,stroke-width:1px,rx:6,ry:6
-    classDef wait fill:#fdf4ff,stroke:#d946ef,stroke-width:2px,rx:6,ry:6,color:#a21caf
+    classDef entry fill:#0f172a,color:#ffffff,stroke:#0f172a,stroke-width:1px,rx:10,ry:10
+    classDef step fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,rx:8,ry:8,color:#0f172a
+    classDef note fill:#fff7ed,stroke:#f59e0b,stroke-width:1.5px,rx:8,ry:8,color:#9a3412
 
-    Q(["💬 User Query"])
+    U(["User Query"]):::entry
 
-    Q --> S
+    subgraph P1["📚 Discovery"]
+        direction LR
+        S["Literature Survey"]:::step --> V["Citation Verify"]:::step --> E["Extract Evidence"]:::step --> K["Build Knowledge Graph"]:::step
+    end
 
-    S["📚 Literature Survey"]:::step
-    S --> V["✅ Citation Verify"]:::step
-    V --> E["📊 Extract Evidence"]:::step
-    E --> K["🧠 Knowledge Graph"]:::step
-    K -.-> W1[["📱 Wait: Scope Freeze"]]:::wait
+    subgraph P2["💡 Ideation & Drafting"]
+        direction LR
+        B["Brainstorm Ideas"]:::step --> N["Novelty Check"]:::step --> D["Write Draft"]:::step --> M["Multi-Reviewer"]:::step
+    end
 
-    W1 --> B["💡 Brainstorm Ideas"]:::step
-    B --> N["🔍 Novelty Check"]:::step
-    N --> D["📝 Write Draft"]:::step
-    D --> M["👥 Multi-Reviewer"]:::step
-    M -.-> W2[["📱 Notify: Review Score"]]:::wait
+    subgraph P3["🧪 Validation"]
+        direction LR
+        R["Run Experiment"]:::step --> A["Analyze Results"]:::step
+    end
 
-    W2 --> R["🧪 Run Experiment"]:::step
-    R --> A["📈 Analyze Results"]:::step
-    A -.-> W3[["📱 Notify: Done"]]:::wait
+    U --> S
+    K --> B
+    M --> R
+    A -. "Revise Draft" .-> D
 
-    A -.->|Revise Draft| D
+    K -.-> N1[["Scope Freeze"]]:::note
+    M -.-> N2[["Review Score"]]:::note
+    A -.-> N3[["Done Notification"]]:::note
 ```
 
 ## 🚀 Quick Start
