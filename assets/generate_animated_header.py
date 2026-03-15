@@ -38,18 +38,18 @@ def generate_header_svg():
     # 浏览器实测 getBBox() 值：
     # NeXus: top=48, bottom=97   (x: 175~310)
     # 副标题: top=69, bottom=93  (x: 326~626)
-    nexus_top = 76   # Q*bert 脚底对齐 NeXus (48+25)
-    sub_top = 91     # Q*bert 脚底对齐副标题 (69+25)
-    nexus_right_edge = 320  # NeXus+冒号 的右边界
+    nexus_top = 78   # Q*bert 脚底对齐 NeXus (48+25)
+    sub_top = 86     # Q*bert 脚底对齐副标题 (69+25)
+    nexus_right_edge = 215  # NeXus+冒号 的右边界
 
     bottom_y = 150
     hop_h = 28
     big_hop_h = 20
 
     # 水平范围
-    right_x = 680
-    left_x = 200
-    bottom_x = 80
+    right_x = 580
+    left_x = 140
+    bottom_x = 150
     n_hops = 10
     hop_w = (right_x - left_x) / n_hops
 
@@ -159,7 +159,7 @@ def generate_header_svg():
   <text x="{text_x}" y="{title_y}" text-anchor="middle">
     <tspan font-family="Cambria, Georgia, serif" font-weight="700" font-size="42" fill="#1a1a2e" letter-spacing="3">NeXus</tspan>
     <tspan font-family="Cambria, Georgia, serif" font-weight="400" font-size="26" fill="#aaa"> : </tspan>
-    <tspan font-family="Cambria, Georgia, serif" font-style="italic" font-weight="500" font-size="26" fill="#555">the Next-gen Unified Sub-researcher</tspan>
+    <tspan font-family="Cambria, Georgia, serif" font-style="italic" font-weight="500" font-size="30" fill="#555">the Next-gen Unified Sub-researcher</tspan>
   </text>
 
   <!-- Q*bert 面朝左 -->
