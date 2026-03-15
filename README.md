@@ -1,6 +1,6 @@
 <img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo" align="left" style="margin-right: 20px;">
 
-### NeXus : *the Next-gen Unified Sub-researcher*
+<h1 align="right">NeXus : <em>the Next-gen Unified Sub-researcher</em></h1>
 
 <div align="right">
   <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="28" alt="Stars Badge"/></a>
