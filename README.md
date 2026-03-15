@@ -1,11 +1,7 @@
-<table border="0" cellspacing="0" cellpadding="20">
-<tr>
-<td width="140" valign="top" bgcolor="#f6f8fa">
-  <img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo">
-</td>
-<td valign="top" bgcolor="#f6f8fa">
+<div>
+  <img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo" align="left" style="margin-right: 20px; margin-top: 18px;">
 
-# NeXus : *the Next-gen Unified Sub-researcher*
+## NeXus : *the Next-gen Unified Sub-researcher*
 
 <div align="right">
   <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="28" alt="Stars Badge"/></a>
@@ -15,10 +11,8 @@
   <br />
   <strong>Query → Survey → Brainstorm → Experiment → Write → Review</strong>
 </div>
-
-</td>
-</tr>
-</table>
+</div>
+<br clear="all" />
 
 
 An **agent skill pack** that turns any LLM coding assistant (Claude Code, Opencode, Antigravity, etc.) into a full-stack academic research partner — from idea generation to paper writing and peer review simulation.
