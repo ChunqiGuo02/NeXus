@@ -22,36 +22,54 @@ An **agent skill pack** that turns any LLM coding assistant (Antigravity, Claude
 ## ✨ What It Does
 
 ```mermaid
-flowchart TD
-    classDef entry fill:#0f172a,color:#ffffff,stroke:#0f172a,stroke-width:1px,rx:10,ry:10
-    classDef step fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,rx:8,ry:8,color:#0f172a
-    classDef note fill:#fff7ed,stroke:#f59e0b,stroke-width:1.5px,rx:8,ry:8,color:#9a3412
+flowchart LR
+    classDef entry fill:#0f172a,color:#ffffff,stroke:none,rx:10,ry:10,font-weight:bold
+    classDef step fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,rx:8,ry:8,color:#1d4ed8,font-weight:600
+    classDef note fill:#fffbeb,stroke:#f59e0b,stroke-width:1.5px,stroke-dasharray: 4 4,rx:6,ry:6,color:#b45309
+    
+    style Discovery fill:#f8fafc,stroke:#cbd5e1,stroke-width:1.5px,stroke-dasharray: 5 5,rx:12,ry:12
+    style Ideation fill:#f8fafc,stroke:#cbd5e1,stroke-width:1.5px,stroke-dasharray: 5 5,rx:12,ry:12
+    style Validation fill:#f8fafc,stroke:#cbd5e1,stroke-width:1.5px,stroke-dasharray: 5 5,rx:12,ry:12
 
-    U(["User Query"]):::entry
+    U(["👨‍💻 User Query"]):::entry
 
-    subgraph P1["📚 Discovery"]
-        direction LR
-        S["Literature Survey"]:::step --> V["Citation Verify"]:::step --> E["Extract Evidence"]:::step --> K["Build Knowledge Graph"]:::step
+    subgraph Discovery ["📚 Phase 1: Discovery"]
+        direction TB
+        S["Literature Survey"]:::step 
+        V["Citation Verify"]:::step 
+        E["Extract Evidence"]:::step 
+        K["Knowledge Graph"]:::step
+        S --> V --> E --> K
     end
 
-    subgraph P2["💡 Ideation & Drafting"]
-        direction LR
-        B["Brainstorm Ideas"]:::step --> N["Novelty Check"]:::step --> D["Write Draft"]:::step --> M["Multi-Reviewer"]:::step
+    subgraph Ideation ["💡 Phase 2: Ideation & Draft"]
+        direction TB
+        B["Brainstorm Ideas"]:::step 
+        N["Novelty Check"]:::step 
+        D["Write Draft"]:::step 
+        M["Multi-Reviewer"]:::step
+        B --> N --> D --> M
     end
 
-    subgraph P3["🧪 Validation"]
-        direction LR
-        R["Run Experiment"]:::step --> A["Analyze Results"]:::step
+    subgraph Validation ["🧪 Phase 3: Validation"]
+        direction TB
+        R["Run Experiment"]:::step 
+        A["Analyze Results"]:::step 
+        R --> A
     end
 
-    U --> S
-    K --> B
-    M --> R
-    A -. "Revise Draft" .-> D
+    U --> Discovery
+    Discovery --> Ideation
+    Ideation --> Validation
 
-    K -.-> N1[["Scope Freeze"]]:::note
-    M -.-> N2[["Review Score"]]:::note
-    A -.-> N3[["Done Notification"]]:::note
+    %% Outputs & Artifacts
+    K -.-> N1[["📌 Scope Freeze"]]:::note
+    M -.-> N2[["📊 Review Score"]]:::note
+    A -.-> N3[["✅ Done Notification"]]:::note
+
+    %% Auto-revision loops
+    M -. "Revise" .-> D
+    A -. "Update Draft" .-> D
 ```
 
 ## 🚀 Quick Start
