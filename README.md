@@ -1,17 +1,17 @@
-<div align="center">
-  <img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo">
+<img src="assets/nexus_logo.gif" width="120" alt="NeXus Logo" align="left" style="margin-right: 20px;">
 
-  # NeXus : *the Next-gen Unified Sub-researcher*
-</div>
+# NeXus : *the Next-gen Unified Sub-researcher*
 
-<p align="right">
+<div align="right">
   <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="28" alt="Stars Badge"/></a>
   <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/network/members"><img src="https://img.shields.io/github/forks/abhisheknaiidu/awesome-github-profile-readme?color=8b5cf6" height="28" alt="Forks Badge"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="28" alt="License"></a>
   <a href="https://x.com/Chunqi_Guo"><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="28" alt="Follow on X" /></a>
   <br />
   <strong>Query → Survey → Brainstorm → Experiment → Write → Review</strong>
-</p>
+</div>
+
+<br clear="all" />
 
 
 An **agent skill pack** that turns any LLM coding assistant (Claude Code, Opencode, Antigravity, etc.) into a full-stack academic research partner — from idea generation to paper writing and peer review simulation.
