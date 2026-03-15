@@ -1,18 +1,16 @@
-<div align="center">
-  <h1 style="border-bottom: none;">
-    <img src="assets/nexus_logo.gif" width="96" alt="NeXus Logo" align="center" style="vertical-align: middle;">
+<div align="right">
+  <h1 style="border-bottom: none; margin-bottom: 10px;">
+    <img src="assets/nexus_logo.gif" width="96" alt="NeXus Logo" style="vertical-align: middle;">
     &nbsp;&nbsp;NeXus : &nbsp;<em><small style="color: #666;">the Next-gen Unified Sub-researcher</small></em>
   </h1>
+  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="32" alt="Stars Badge"/></a>
+  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/network/members"><img src="https://img.shields.io/github/forks/abhisheknaiidu/awesome-github-profile-readme?color=8b5cf6" height="32" alt="Forks Badge"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="32" alt="License"></a>
+  <a href="https://x.com/Chunqi_Guo" ><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="32" alt="Follow on X" /></a>
+  <br />
+  <strong style="display: block; margin-top: 10px;">Query → Survey → Brainstorm → Experiment → Write → Review</strong>
 </div>
-<hr style="height: 1px; border: none; border-top: 1px solid #eaeaea; margin: 10px 0;">
-<p align="center">  
-  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/stargazers"><img src="https://img.shields.io/github/stars/abhisheknaiidu/awesome-github-profile-readme?color=3b82f6" height="35" alt="Stars Badge"/></a>
-  <a href="https://github.com/abhisheknaiidu/awesome-github-profile-readme/network/members"><img src="https://img.shields.io/github/forks/abhisheknaiidu/awesome-github-profile-readme?color=8b5cf6" height="35" alt="Forks Badge"/></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" height="35" alt="License"></a>
-  <a href="https://x.com/Chunqi_Guo" ><img src="https://img.shields.io/twitter/follow/Chunqi_Guo?logo=x&logoColor=black&labelColor=eaeaea&color=eaeaea" height="35" alt="Follow on X" /></a>
- <br />
- <strong>Query → Survey → Brainstorm → Experiment → Write → Review</strong>
-</p>
+
 
 An **agent skill pack** that turns any LLM coding assistant (Claude Code, Opencode, Antigravity, etc.) into a full-stack academic research partner — from idea generation to paper writing and peer review simulation.
 
