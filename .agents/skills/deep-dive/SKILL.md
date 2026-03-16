@@ -1,6 +1,6 @@
 ---
 name: deep-dive
-description: 对 1-10 篇核心论文进行精读分析，提取方法细节、实验设置、关键超参数、代码实现等。当用户说"精读这篇论文"、"分析方法细节"、"deep dive"时触发，或被 idea-brainstorm 的 JIT 深读自动调用。
+description: 对 1-10 篇核心论文进行精读分析，提取方法细节、实验设置、关键超参数、代码实现等。当用户说"精读这篇论文"、"分析方法细节"、"deep dive"时触发，或在 pipeline Stage 4（Idea Approval 后）自动调用。
 ---
 
 # deep-dive

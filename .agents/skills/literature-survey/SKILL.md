@@ -27,7 +27,7 @@ description: 端到端文献综述流程：搜索→Scope Freeze→Corpus Freeze
   │
   ├─ arXiv → alphaxiv-paper-lookup 获取 Markdown
   ├─ 非 arXiv + 有 PDF → pdf-to-markdown 解析
-  └─ 无法获取 → 标记 access_state，触发 Manual Fetch 卡点
+  └─ 无法获取 → 标记 access_state + publishable，触发 Manual Fetch 卡点
   │
   ▼ Step 3: 验证引用
   对每篇论文调用 citation-verifier Skill
@@ -96,7 +96,7 @@ description: 端到端文献综述流程：搜索→Scope Freeze→Corpus Freeze
 | 文件 | 更新内容 |
 |------|---------|
 | `project_state.json` | scope、phase、stats |
-| `corpus_ledger.json` | 所有搜索到的论文（含 access_state）|
+| `corpus_ledger.json` | 所有搜索到的论文（含 access_state + publishable）|
 | `evidence_graph.json` | 提取的 claims |
 | `bib/verified.json` | 验证过的引用 |
 | `artifacts/survey.md` | 生成的综述 |

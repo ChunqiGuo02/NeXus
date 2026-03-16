@@ -31,6 +31,9 @@ description: 对研究 idea 进行新颖性风险评估，识别最近的 prior 
 | 🔴 **High** | 已有高度相似的工作 | 搜到核心方法+领域完全重合的论文 |
 | 🟡 **Medium** | 有部分重叠 | 方法相同但领域不同，或领域相同但方法不同 |
 | 🟢 **Low** | 搜索空间未被覆盖 | 无直接匹配，最近的 prior art 也有显著差异 |
+| ⚠️ **Unknown** | 覆盖不足，无法判断 | `total_papers_scanned` 低于阈值，**禁止进入 Build 阶段** |
+
+> ⛔ **硬门槛**：当 `total_papers_scanned < 50`（AI/ML）或 `< 30`（其他领域）时，强制返回 `overall_risk: "unknown"`，禁止自动通过。必须补充搜索范围后重新评估。
 
 ### 3. 差异化分析
 
@@ -62,13 +65,19 @@ description: 对研究 idea 进行新颖性风险评估，识别最近的 prior 
 }
 ```
 
-### 5. Review Arena 卡点
+### 5. Novelty Risk 硬卡点 ⛔
+
+> **Autopilot 下也不可自动跳过。**
 
 将报告展示给用户，用户可以：
-- ✅ **继续**: 接受风险，进入写作阶段
+- ✅ **继续**: 接受风险，进入架构审查和实验阶段
 - 🔄 **调整**: 根据 suggested_pivots 修改 idea
 - ❌ **放弃**: 返回 idea-brainstorm 重新构思
 
+**自动阻断条件**（基于输出 JSON 的 `overall_risk` 字段）：
+- `overall_risk: "unknown"`（覆盖不足）→ 禁止继续，必须补充搜索
+- `overall_risk: "high"`（撞车）→ 强制展示报告，即使 Autopilot 也必须等待用户确认
+
 ## 文件更新
 
-更新 `hypothesis_board.json` 中对应 idea 的 `novelty_risk` 字段。
+更新 `hypothesis_board.json` 中对应 idea 的 `novelty_risk` 对象（即上方输出报告的完整 JSON，其中 `overall_risk` 字段为硬卡点依据）。

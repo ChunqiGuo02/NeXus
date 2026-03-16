@@ -70,8 +70,12 @@ def register(mcp_instance: FastMCP) -> None:
         email = config.get("email")
         is_arxiv = not identifier.startswith("10.")
 
+        # publishable 由 access_state 自动决定
+        _PUBLISHABLE_STATES = {"oa_fulltext", "repository_fulltext", "user_supplied_pdf"}
+
         result: dict[str, Any] = {
             "access_state": "unavailable",
+            "publishable": False,
             "pdf_url": None,
             "access_source": "none",
             "metadata": {},
@@ -93,6 +97,7 @@ def register(mcp_instance: FastMCP) -> None:
                         f"arXiv 论文，可通过 alphaxiv-paper-lookup 获取结构化 Markdown，"
                         f"或直接下载 PDF: {result['pdf_url']}"
                     )
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
             except Exception as e:
                 result["errors"].append(f"[Tier1:arXiv] {type(e).__name__}: {e}")
@@ -110,6 +115,7 @@ def register(mcp_instance: FastMCP) -> None:
                     result["access_state"] = "oa_fulltext"
                     result["access_source"] = "unpaywall"
                     result["message"] = f"OA 全文可用 (via Unpaywall, {oa_info.get('oa_status')})"
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
             except Exception as e:
                 result["errors"].append(f"[Tier2:Unpaywall] {type(e).__name__}: {e}")
@@ -126,7 +132,9 @@ def register(mcp_instance: FastMCP) -> None:
                         result["access_state"] = "oa_fulltext"
                         result["access_source"] = "openalex"
                         result["message"] = "OA 全文可用 (via OpenAlex)"
+                        result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                         return result
+                    # 非 OA：仅保存 metadata，继续尝试后续 Tier（CORE/PMC/Shadow）
             except Exception as e:
                 result["errors"].append(f"[Tier2:OpenAlex] {type(e).__name__}: {e}")
                 logger.warning(f"Tier2 OpenAlex 失败: {e}")
@@ -140,6 +148,7 @@ def register(mcp_instance: FastMCP) -> None:
                     result["access_state"] = "repository_fulltext"
                     result["access_source"] = "core"
                     result["message"] = "OA 仓库版本可用 (via CORE)"
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
             except Exception as e:
                 result["errors"].append(f"[Tier2:CORE] {type(e).__name__}: {e}")
@@ -153,6 +162,7 @@ def register(mcp_instance: FastMCP) -> None:
                     result["access_state"] = "repository_fulltext"
                     result["access_source"] = "europe_pmc"
                     result["message"] = "OA 全文可用 (via Europe PMC)"
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
             except Exception as e:
                 result["errors"].append(f"[Tier2:EuropePMC] {type(e).__name__}: {e}")
@@ -170,6 +180,7 @@ def register(mcp_instance: FastMCP) -> None:
                     result["access_state"] = "shadow_fulltext"
                     result["access_source"] = f"sci-hub ({scihub.get('mirror')})"
                     result["message"] = "全文已通过 Sci-Hub 获取"
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
             except Exception as e:
                 result["errors"].append(f"[Tier3:SciHub] {type(e).__name__}: {e}")
@@ -183,6 +194,7 @@ def register(mcp_instance: FastMCP) -> None:
                     result["access_state"] = "shadow_fulltext"
                     result["access_source"] = "libgen"
                     result["message"] = "全文已通过 LibGen 获取"
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
             except Exception as e:
                 result["errors"].append(f"[Tier3:LibGen] {type(e).__name__}: {e}")
@@ -201,6 +213,7 @@ def register(mcp_instance: FastMCP) -> None:
                         "1. 从学校数据库手动下载 PDF 放入 raw_pdfs/ 目录\n"
                         f"2. 直接搜索: https://scholar.google.com/scholar?q={doi}"
                     )
+                    result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
                     return result
         except Exception as e:
             result["errors"].append(f"[Tier5:Fallback] {type(e).__name__}: {e}")
@@ -208,4 +221,5 @@ def register(mcp_instance: FastMCP) -> None:
         result["access_state"] = "metadata_only" if result["metadata"] else "unavailable"
         result["access_source"] = "none"
         result["message"] = "X 未找到此论文的任何可用版本"
+        result["publishable"] = result["access_state"] in _PUBLISHABLE_STATES
         return result

@@ -16,6 +16,7 @@ globs: ["**/*.md", "**/*.tex", "**/*.json"]
 3. **来源溯源**: 每条 claim 必须标注 `paper_id`（对应 corpus_ledger 中的条目）和 `section`
 4. **无证据标红**: 如果一个断言找不到对应的 evidence claim，必须标记为 `[NEEDS_EVIDENCE]` 并在交付前补充或删除
 5. **证据类型标注**: 每条 claim 必须标注 `claim_type`（result/method/limitation/hypothesis/observation）和 `evidence_type`（support/oppose/limitation/neutral）
+6. 🚨 **可投稿来源约束**: 终稿中引用的每条 claim 必须来自 `publishable=true` 的来源（即 `oa_fulltext`、`repository_fulltext` 或 `user_supplied_pdf`）。`shadow_fulltext`、`abstract_only`、`metadata_only` 来源的 claim **不得**作为终稿证据
 
 ## 适用范围
 

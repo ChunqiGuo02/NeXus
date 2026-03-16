@@ -42,6 +42,8 @@ description: 从论文 Markdown 中提取结构化证据卡片（claim + exact_q
   "claim_text": "用中文简明概括此 claim",
   "claim_type": "result | method | limitation | hypothesis | observation",
   "evidence_type": "support | oppose | limitation | neutral",
+  "access_state": "从 corpus_ledger 继承的 access_state",
+  "publishable": "从 corpus_ledger 继承的 publishable 布尔值",
   "verified": true,
   "extracted_at": "ISO 时间戳"
 }
