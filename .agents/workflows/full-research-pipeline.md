@@ -6,6 +6,11 @@ description: 完整研究生命周期流水线：Survey → Ideate → Build →
 
 端到端的研究流水线，从文献调研到论文审稿。支持手动和 Autopilot 两种模式。
 
+> [!IMPORTANT]
+> 本 pipeline 由 `pipeline-orchestrator` MCP server 驱动。
+> 每个 stage 的进入和退出**必须**通过 `advance_pipeline()` / `complete_stage()` 调用。
+> 不要自行判断当前应执行哪个 skill — 以 MCP tool 返回值为准。
+
 ## 使用方式
 
 - 手动模式: `/full-research-pipeline "研究主题"`

@@ -1,0 +1,15 @@
+[project]
+name = "pipeline-orchestrator"
+version = "0.1.0"
+description = "NeXus pipeline 状态机驱动 MCP Server — 确定性 stage 路由 + 产出验证 + subagent 并行调度"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "ruff", "mypy"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

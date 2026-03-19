@@ -6,6 +6,11 @@ description: 被拒/草稿论文优化流水线：诊断 → 决策（修补 or 
 
 将被拒论文、草稿或预印本升级为顶会/顶刊水准。支持两条路线：修补（核心 idea 可救）和重做（需要 pivot）。
 
+> [!IMPORTANT]
+> **适用范围**：仅用于 **pipeline 外** 的独立论文优化场景（用户带着已写好的论文来改进）。
+> **Pipeline 内** 的修改统一走 `revise_round1/2` + `final_revise` stages，不走此 workflow。
+> 如果用户在 pipeline 内执行到审稿阶段后需要修改，由 `multi-reviewer` skill 的 Pipeline Exit 自动处理。
+
 ## 使用方式
 
 ```

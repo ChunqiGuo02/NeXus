@@ -18,6 +18,18 @@ description: 基于 Evidence Graph + Knowledge Graph 进行学术 idea 构思与
 
 ## 执行流程
 
+### Phase 0: Direction Recommendation (Novice Only, v2)
+
+当 `project_state.json` 中 `user_level == "novice"` 时强制执行：
+
+1. 抓取目标 venue 最近 2 年 accepted papers 的 topic 分布
+2. 识别竞争较低 + 热度上升的 sub-topic（high-acceptance niches）
+3. 推荐 2-3 个具体可做的方向 + 理由
+4. Idea 生成偏向 **Tier 1-2**（安全+稳定），避开 Tier 3（激进）
+5. 首次投稿用户应做 clean, solid, well-executed 的工作
+
+> Expert 模式跳过此步。
+
 ### Step 0: Research Frontier Check（QG1）
 
 在做 gap analysis 之前，先确保我们对**研究前沿**有准确理解：
@@ -123,14 +135,49 @@ Challenge: [核心挑战]
   "compute_feasibility": "能否在现有的 N 张 GPU 上在 3 天内完成验证？如果不能，如何下采样？",
   "contribution_type": "new_method | new_formulation | new_benchmark",
   "expected_delta": "vs current SOTA 的预期提升幅度和依据",
-  "significance_argument": "谁受益？解决了什么实际问题？为什么现在做？"
+  "significance_argument": "谁受益？解决了什么实际问题？为什么现在做？",
+  "contribution_delta": {
+    "delta_method": {
+      "score": 3,
+      "evidence": "与最近方法的具体差异描述",
+      "closest_prior": "Method Y (Paper Z, 2025)"
+    },
+    "delta_performance": {
+      "score": 4,
+      "evidence": "预计提升幅度及依据（pilot 或理论推导）",
+      "baseline_sota": "当前 SOTA 及其数字"
+    },
+    "delta_scope": {
+      "score": 3,
+      "evidence": "可泛化到哪些任务/场景",
+      "generalization_plan": "Task A, B, C"
+    },
+    "delta_insight": {
+      "score": 4,
+      "evidence": "提供了什么新的 understanding",
+      "insight_statement": "一句话描述新发现"
+    }
+  },
+  "contribution_magnitude": "sufficient | borderline | insufficient"
 }
 ```
+
+**Contribution Magnitude Gate（v4 强制）**：
+
+| 判定 | 条件 | 动作 |
+|------|------|------|
+| **sufficient** | ≥3/4 维度 score ≥ 3 且 delta_insight ≥ 3 | 进入 Elo 锦标赛 |
+| **borderline** | 2/4 维度 ≥ 3 | 用户确认后进入 |
+| **insufficient** | ≤1/4 维度 ≥ 3 | ⛔ 直接淘汰，不进入 Elo |
+
+> ⛔ **关键规则**：delta_performance 高但 delta_insight 低 = insufficient。
+> "0.5% 性能提升 + 零 insight" 不是论文，是 technical report。
 
 #### 2.3 Elo 锦标赛排名（替代 beam search）
 
 **淘汰赛 Round 1-2**（Gemini Flash — 省 quota）：
-- 30 candidates × Swiss-system pairing
+- 仅 sufficient + borderline ideas 进入（insufficient 已被 CMG 淘汰）
+- Swiss-system pairing
 - 每次对比 4 维度：novelty / feasibility / relevance / impact
 - 批量对比（一次请求对比 3-5 对）
 - 淘汰至 top-8
@@ -139,12 +186,27 @@ Challenge: [核心挑战]
 - top-8 互比，差异细微，需要强模型
 - 最终输出 Elo 排名 top-5
 
-#### 2.4 输出 ToT 存活列表
+#### 2.4 Accepted Paper Benchmark（v4 新增 — Elo 后、红队前）
+
+用搜索工具找目标 venue 最近 1 年 accepted papers 中与 top-5 idea 最相似的论文：
+
+1. 对每个 top-5 idea，找 3-5 篇最相似的 accepted paper
+2. 提取这些 paper 的 contribution（方法/性能/范围/insight）
+3. 回答 3 个检验问题：
+   - "我们的 contribution 比这 5 篇中**最弱的**那篇大吗？"
+   - "我们的 delta_insight 和**最强的**那篇差距多大？"
+   - "如果这些都中了，我们凭什么中不了？答不出来 = idea 不够好"
+4. 输出 `dialogue/benchmark_analysis.md`
+
+> 如果 idea 的 contribution 低于对标 papers 中最弱的那篇 → ⚠️ magnitude_warning
+
+#### 2.5 输出 ToT 存活列表
 
 输出到 `dialogue/tot_survivors.md`：
-- 5 个经过 Elo 排名存活的高质量 ideas
+- 5 个经过 Elo 排名存活的高质量 ideas + CMG 评分 + Benchmark 对标结果
 - 每个 idea 的完整推理路径（L1→L2→L3）和 Elo 分数
-- 被淘汰的 ideas 列表（供红队参考是否有错误淘汰）
+- 被 CMG 淘汰的 ideas 列表（记录原因）
+- 被 Elo 淘汰的 ideas 列表（供红队参考是否有错误淘汰）
 
 ### Step 3: SDP 跨模型红队攻击（Phase 2）
 
@@ -187,7 +249,7 @@ Challenge: [核心挑战]
 
 读取 `ideas_v1.md`，输出 `dialogue/red_team_report.md`：
 
-对每个 idea 做 **8+1 维度攻击**（QG2 Significance Bar）：
+对每个 idea 做 **9+1 维度攻击**（QG2 Significance Bar）：
 - **假设攻击**：核心假设的反例/反证
 - **Baseline 攻击**：有没有更简单的方法达到类似效果？
 - **实验攻击**：最可能的失败模式是什么？
@@ -197,6 +259,12 @@ Challenge: [核心挑战]
 - **贡献类型审查**：`contribution_type` 是否足够有分量？纯 application 需要有深度 insight
 - 🚫 **除水攻击 (Bullshit Detection)**：该想法是否在"吹牛逼"？它是否违反了已知的数学、物理约束或算力极其不现实？`theoretical_grounding` 是否只是胡乱拼凑名词？如果能轻易找到反例，直接 Kill。
 - **剪枝审查**：检查 ToT 是否错误淘汰了有价值的 idea
+- 🔟 **"So What?" Test（v4 — Significance Stress Test）**：
+  - Q1: "这个工作解决了**谁的**什么**实际问题**？答不出来 = 不值得做"
+  - Q2: "发在 arXiv 上，一年后会有几篇论文引用？预估 <5 篇 = insufficient"
+  - Q3: "去掉所有 ML 术语，一句话告诉外行人你做了什么？"
+  - Q4: "领域 top researcher 会花 30 分钟读吗？为什么？"
+  - 判定: Q1-Q4 中 ≥ 2 个答不出 → magnitude_warning
 
 🚀 **必答题：Visionary Escalation（远景拔高攻击）**
 - 对于活下来的 Tier 1/Tier 2 idea，红队必须提供拔高方案："怎么将它的雄心（Ambition）放大 10 倍，使之具备拿 Best Paper 的潜质？"
@@ -249,12 +317,13 @@ Challenge: [核心挑战]
 
 | 文件 | 更新内容 |
 |------|---------| 
-| `hypothesis_board.json` | 写入选定的 idea |
+| `hypothesis_board.json` | 写入选定的 idea（含 contribution_delta 四维评估） |
 | `evidence_graph.json` | Quick Read 校验发现的补充 claims（如有） |
 | `project_state.json` | phase → "ideation" |
-| `dialogue/tot_survivors.md` | ToT 存活列表 |
+| `dialogue/tot_survivors.md` | ToT 存活列表 + CMG 评分 |
+| `dialogue/benchmark_analysis.md` | Accepted Paper 对标结果（v4 新增） |
 | `dialogue/ideas_v1.md` | 蓝队 handoff |
-| `dialogue/red_team_report.md` | 红队报告 |
+| `dialogue/red_team_report.md` | 红队报告（含 So What Test 结果） |
 | `dialogue/ideas_v2.md` | 修订后 ideas |
 
 ## 反直觉规则
@@ -264,3 +333,35 @@ Challenge: [核心挑战]
 3. **最好的 idea 往往不是排名第一的** — Elo 排名是参考，用户直觉同样重要
 4. **跨域缺口比方法缺口更有潜力** — 但也更难验证，需要更仔细的可行性评估
 5. **不要过度防御** — 红队的 suggestion 可以拒绝，但 blocking issue 必须正面回应
+
+## Pipeline Exit
+
+完成后执行：
+1. 更新 `project_state.json` 的 `current_stage`
+2. **必须调用** `pipeline-orchestrator.complete_stage("ideation")` 验证产出
+3. 根据返回值自动进入下一阶段（deep_dive）
+
+---
+
+## Domain Taste 集成
+
+在 ToT 探索前，**必须**读取 `artifacts/domain_taste_profile.json`（由 `domain_calibration` stage 自动生成）。
+
+### 引导规则
+
+1. **Contribution 风格**: 参考 `argumentation_patterns.contribution_ambition`
+   - elite 倾向 "new understanding" → ToT 中优先探索理解类 idea
+   - elite 倾向 "new method" → ToT 中优先探索方法创新类 idea
+
+2. **Trending 方向**: 参考 `trending_direction`
+   - 在 Layer 1 概念层，优先生成与 trending 方向交汇的概念
+   - 但保留 1-2 个 contrarian idea（逆趋势）
+
+3. **Baseline 意识**: 参考 `must_have_baselines`
+   - 生成的 idea 必须能与 must_have_baselines 做实验对比
+   - 如果 idea 无法与任何 baseline 对比 → 可行性扣分
+
+4. **饱和检测**: 参考 `staircase_diffs`
+   - staircase_diffs 中 ratio ≈ 1.0 的维度 → 该方向已饱和
+   - idea 应避开饱和维度，寻找 diff_ratio 大的方向
+

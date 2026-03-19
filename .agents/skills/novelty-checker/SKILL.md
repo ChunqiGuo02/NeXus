@@ -81,3 +81,21 @@ description: 对研究 idea 进行新颖性风险评估，识别最近的 prior 
 ## 文件更新
 
 更新 `hypothesis_board.json` 中对应 idea 的 `novelty_risk` 对象（即上方输出报告的完整 JSON，其中 `overall_risk` 字段为硬卡点依据）。
+
+## Pipeline Exit
+
+完成后执行：
+1. 更新 `project_state.json` 的 `current_stage`
+2. **必须调用** `pipeline-orchestrator.complete_stage("novelty_check")` 验证产出
+3. 根据返回值自动进入下一阶段（experiment_design）
+
+---
+
+## Domain Taste 集成
+
+读取 `artifacts/domain_taste_profile.json`（由 `domain_calibration` stage 自动生成）的以下字段:
+
+1. **hot_topics** → 热门方向碰撞风险更高，搜索更多轮
+2. **saturated_topics** → 饱和方向 novelty 要求更高
+3. **trending_direction** → 上升趋势的方向碰撞风险中等但可差异化
+

@@ -57,3 +57,8 @@ description: 从 Evidence Graph 中自动识别高频 claim，提升为 Knowledg
 
 Idea2Paper 需要预构建 KG（ICLR/NeurIPS 数据集），冷启动成本高。
 本 Skill 从用户自己的 Evidence Graph 中自然生长 KG，**零冷启动、自动覆盖用户研究的领域**。
+
+## Pipeline 集成
+
+此 skill 在 `survey_fetch` 阶段末尾自动触发（当 claims 数达到阈值时）。
+不独立占用 pipeline stage，不需要调用 `complete_stage()`。

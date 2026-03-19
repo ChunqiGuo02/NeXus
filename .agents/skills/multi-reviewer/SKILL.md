@@ -20,6 +20,31 @@ description: SDP 双模型 6 审稿人 + 交叉审核系统。含拒稿信预演
 
 > 目的：在别人攻击你之前，先自我攻击。提前暴露弱点并修复。
 
+## Step 0.5: Domain-Calibrated Reviewer Generation (v2.1)
+
+**不使用通用 persona，而是根据论文 topic 动态生成领域专家 reviewer。**
+
+1. 从论文提取 top-5 关键词 / topic tags
+2. 在目标 venue 近 2 年同 area 的论文中找 **高频 senior author**（发过 3+ 篇）
+3. 分析这些人的研究风格和关注点：
+   - 偏理论 vs 偏实验？
+   - 经常在 review 中关注什么？（从 OpenReview 公开 reviews 推断）
+   - 他们的代表作中最看重什么 metric / 方法 / 评估标准？
+4. 生成 **6 个 Domain-Calibrated Reviewer Profile**：
+
+| Reviewer | 角色 | 生成方式 |
+|----------|------|---------|
+| A | 该子领域的 senior researcher | 基于高频 senior author 画像 |
+| B | 该领域的方法论专家 | 关注数学严谨性 + 算法正确性 |
+| C | 应用方向的 practitioner | 关注实用性 + scalability |
+| D | 跨领域 reviewer（非核心 area） | 关注 presentation + accessibility |
+| E | junior 但 aggressive reviewer | 寻找每一个细节问题 |
+| F | Area Chair 视角 | 关注 novelty + significance + fit |
+
+5. 每个 reviewer 必须生成 **"该 reviewer 会特别关注的 3 个问题"** — 基于他们的领域专长
+
+> 这样做的好处：通用型 reviewer 可能不会想到 "为什么不和 GATv2 比"，但 GNN 领域专家一定会问。
+
 ## Step 1: 准备
 
 ```
@@ -174,7 +199,7 @@ Part 2: 交叉审核（看到 Gemini 的 A/B/C reviews 后）
 
 > 实际权重从 `venue_rubrics/{venue}.md` 加载。
 
-## 三层 Anchor 校准
+## 三层 Anchor 校准 + v4 审稿硬化
 
 ### Anchor 1: 历史分数分布（静态）
 
@@ -187,6 +212,74 @@ Part 2: 交叉审核（看到 Gemini 的 A/B/C reviews 后）
 ### Anchor 3: 用户校准（渐进式）
 
 用户对历史 review 标注"偏高/准确/偏低"，系统学习偏好。
+
+### Score Deflation Protocol（v4 新增）
+
+**问题**：LLM 有 sycophancy bias，比真实 reviewer 温和得多。
+
+**规则**：
+1. 每个 reviewer **必须**找出至少 1 个 **reject-level weakness**（score ≤ 4 的理由），即使整体觉得论文不错
+   - 找不到 → 说明审稿不够深入 → 换更严格的 prompt 重审
+2. 每个 reviewer 给 overall score 时，同时给出"为什么不应该 reject"的理由
+   - 理由不够强 → score 下调 1 分
+3. 6 个 reviewer 的 score 分布必须满足：
+   - 至少 1 个 score ≤ 5（模拟最严格的 25% 审稿人）
+   - 至少 2 个 score ≤ 6（模拟中等严格度）
+   - 全部 score > 6 → ⚠️ 模拟失真，增加 Reviewer-2 Attack
+
+### Reviewer-2 Attack（v4 新增 — 极度苛刻模式）
+
+在 6 个 reviewer 之外，额外触发 1 个 **Reviewer-2**（学术圈的 "Reviewer 2 nightmare"）：
+
+```
+你是 Reviewer 2。你以极度严格著称。
+你的标准是："除非你让我无话可说，否则 reject。"
+
+规则：
+1. 找出至少 1 个 FATAL FLAW（能让 AC 直接 reject 的问题，不是小问题）
+2. 这个 flaw 必须具体、可验证（不是 "writing could be improved"）
+3. 如果真的找不到 fatal flaw → 解释为什么这篇论文值得 accept
+4. 你的标准：50% 的论文应该被 reject
+```
+
+Reviewer-2 的输出不影响综合 score，但 fatal flaw 必须被显式处理：
+- 能 rebuttal → 论文更强
+- 不能 rebuttal → 这就是被拒的真正原因
+
+### Venue-Calibrated Score Distribution（v4 新增）
+
+从 `venue_playbooks/playbooks.json` 加载 venue 历史数据校准评分：
+
+```json
+{
+  "acceptance_rate": "25%",
+  "score_distribution": {
+    "mean": 5.2, "std": 1.8,
+    "accept_threshold": 6.5,
+    "oral_threshold": 8.0
+  },
+  "typical_weaknesses": [
+    "incremental contribution",
+    "missing important baselines",
+    "overclaiming without sufficient evidence"
+  ]
+}
+```
+
+审稿完成后对比 venue 的 accept_threshold：
+- score_mean ≥ accept_threshold → "competitive for this venue"
+- threshold - 1 ≤ score_mean < threshold → "borderline"
+- score_mean < threshold - 1 → "likely reject — 建议补充实验或 pivot"
+
+### Post-Submission Scoring Bias Calibration（v4 新增）
+
+当 `evolution_memory.json` 中积累 ≥2 次真实投稿反馈后：
+
+1. 计算 score_bias = mean(模拟 score - 真实 score)
+2. 后续审稿的所有 score 自动减去 score_bias
+3. score_bias > 1.5 → ⚠️ "模拟审稿严重偏乐观"
+
+> 这实现了一个**自校准的审稿系统**——越用越准。
 
 ## 审稿终审卡点 ⛔
 
@@ -208,3 +301,43 @@ Part 2: 交叉审核（看到 Gemini 的 A/B/C reviews 后）
 3. **consensus weaknesses 必须修** — 两个模型都指出的问题几乎一定存在
 4. **disagreements 更有价值** — 分歧意味着这个点值得深入思考
 5. **不要让好评麻痹你** — 专注 weaknesses，strengths 不需要你操心
+
+## Pipeline Exit (v2: 3-Round Review)
+
+v2 拆分为 3 轮递进审稿：
+
+```
+review_round1（本 skill 全流程）→ revise_round1 → review_round2（复审+对抗 reviewer）→ revise_round2 → review_round3_meta（AC 终审）
+```
+
+完成 Round 1 后：
+1. **必须调用** `pipeline-orchestrator.complete_stage("review_round1")` 验证产出
+2. 进入 `revise_round1`（修改）→ 然后自动进入 Round 2 和 Meta-Review
+3. Meta-Review reject → 可 rollback 到 `experiment_run` 补实验
+
+---
+
+## Domain Taste 集成
+
+在生成 reviewer persona 前，**必须**读取 `artifacts/domain_taste_profile.json`（由 `domain_calibration` stage 自动生成）。
+
+### Reviewer Persona 生成规则
+
+1. **读取 domain_taste_profile.json**:
+   - `structural_norms` → 每个 reviewer 的 must_check 中加入违反项
+   - `staircase_diffs` → 校准评分（"elite 100% 有 ablation" → 没有则扣分）
+   - `argumentation_patterns` → 设定 reviewer 关注的论证维度
+   - `must_have_baselines` → 检查是否缺少必备 baseline
+   - `trending_direction` → 评估 timing 和 relevance
+
+2. **每个 reviewer persona 必须包含**:
+   - ≥3 条来自 domain_taste 的具体检查项
+   - 该维度对应的 elite 统计值作为参照
+   - 例: "elite insight_density 平均 0.71，低于 0.5 应扣分"
+
+3. **SDP Handoff 生成**:
+   - 切换到 Codex 前，调用 `pipeline-orchestrator.generate_sdp_handoff_file(project_dir, "review", 3)`
+   - 自动将 domain_taste_profile 的完整核心内容嵌入 handoff（不能只放摘要）
+   - 含: structural_norms 全表、staircase_diffs、trending、must_have_baselines
+   - 每个 reviewer persona ~800 字，总 handoff ~5000-8000 字
+

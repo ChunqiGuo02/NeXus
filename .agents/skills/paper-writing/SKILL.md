@@ -18,12 +18,14 @@ description: 基于 Story Skeleton + Evidence Graph 生成学术论文草稿。S
 
 ## 写作流程
 
-### Step 1: Story Skeleton（写作大纲）
+### Step 1: Story Skeleton（写作大纲 + v2.2 说服力层）
 
 在动笔之前，先生成中间表示：
 
 ```json
 {
+  "one_sentence_summary": "用一句话（≤30 词）概括论文的核心贡献。如果写不出来，论文缺焦点。",
+  "positioning": "来自 venue_fit_report.md 的定位策略（method/empirical/theory/...）",
   "narrative_arc": "从问题到方案到结果的叙事逻辑",
   "sections": [
     {
@@ -31,14 +33,8 @@ description: 基于 Story Skeleton + Evidence Graph 生成学术论文草稿。S
       "goal": "本节要回答什么问题",
       "key_claims": ["claim-001", "claim-005"],
       "estimated_words": 800,
-      "key_figures": ["fig1: 方法概览图"]
-    },
-    {
-      "name": "Related Work",
-      "goal": "定位本工作在领域中的位置",
-      "key_claims": ["claim-010", "claim-012"],
-      "categories": ["方法类别 A", "方法类别 B"],
-      "estimated_words": 600
+      "key_figures": ["fig1: 方法概览图"],
+      "transition_to_next": "本节结尾如何自然引出 Related Work"
     }
   ],
   "abstract_formula": {
@@ -47,9 +43,138 @@ description: 基于 Story Skeleton + Evidence Graph 生成学术论文草稿。S
     "method": "一句话描述我们的方法",
     "result": "一句话描述主要结果",
     "impact": "一句话描述意义"
-  }
+  },
+  "weakness_preemption": [
+    {
+      "attack": "审稿人可能说：只在 2 个数据集上做了实验",
+      "defense": "Section 4.3 展示了 5 个数据集的结果 + Appendix B 有更多",
+      "embed_in_section": "Experiments"
+    },
+    {
+      "attack": "审稿人可能说：方法复杂度太高",
+      "defense": "Table 3 展示了与 baseline 相同量级的 FLOPs",
+      "embed_in_section": "Experiments"
+    }
+  ],
+  "significance_argument": "解决这个问题对领域的意义是什么？",
+  "figure1_spec": "Figure 1 应该展示什么，确保自解释核心 idea"
 }
 ```
+
+#### One-Sentence Summary Test (v2.2)
+
+**强制要求**：在 Story Skeleton 完成后，用一句话（≤30 个英文词）总结论文贡献。
+
+- 这句话必须同时出现在 Abstract 第一句和 Introduction 最后一段
+- 如果写不出来 → 论文缺焦点，需要回到 ideation 重新聚焦
+- 好例子：*"We show that simple data augmentation closes 80% of the gap between supervised and self-supervised learning on ImageNet."*
+- 坏例子：*"We propose a novel framework for improved performance."*
+
+#### Weakness Preemption Plan (v2.2)
+
+**在动笔之前**列出 top-5 审稿人可能的攻击点，并为每个攻击点准备预防性论述：
+
+1. 从 `venue_fit_report.md` 的 "预期审稿问题" 中提取 top-5
+2. 为每个攻击点写一句话的预防性回答
+3. 标注这个防御应该嵌入论文的哪个 section
+4. 写作时自然地融入（不能显得是在辩解）
+
+> 最好的论文让审稿人觉得 "我想质疑的点他都解释了"。
+
+#### Narrative Momentum Requirements (v2.2)
+
+写作时每个 section 的段落之间必须有**因果推进**：
+
+- Introduction 的每一段比前一段更具体（大问题 → 具体 gap → 我们的方案）
+- Method 的每个子节由前一个子节暴露的问题驱动
+- Experiment 的顺序回答读者在读完 Method 后**自然产生的问题**
+- Related Work 的每个子类结尾**必须**写 "与上述方法不同，我们..."
+
+每个 section 的最后一句应该**自然引出**下一个 section 的动机。
+
+#### Figure 1 Quality Gate (v2.2)
+
+Figure 1（方法概览图）是审稿人的第一印象。要求：
+
+1. **自解释**：不读正文即可理解核心 idea
+2. **30 秒测试**：新读者看 30 秒能说出 "这个方法做了什么"
+3. 包含：输入 → 核心处理 → 输出 的完整流程
+4. 标注清晰，字号 ≥ 8pt
+5. 如果是对比方法，用 (a) existing vs (b) ours 的并列结构
+
+#### Rebuttal-Ready Appendix (v2.2)
+
+论文写的时候就为 rebuttal 做准备：
+
+1. 对 weakness_preemption 中的每个攻击点，在 Appendix 中预备：
+   - 补充实验（更多数据集 / 更多 baseline / 参数敏感性）
+   - 更详细的推导或解释
+   - Failure case 分析
+2. 正文中用 "See Appendix X for details" 引出
+3. 当审稿人说 "你没有做 X" → 立刻指向 "Appendix C 已有"
+
+#### Insight Density Check (IDC)（v4 新增）
+
+**写完每个 section 后必须检查 insight 密度**。逐段扫描，每段必须包含 ≥1 个 insight marker：
+
+| Marker 类型 | 识别信号 | 示例 |
+|------------|---------|------|
+| 📊 **定量分析** | 数字、百分比、趋势 | "reduces error by 23%" |
+| 🔍 **因果解释** | because, due to, caused by | "This is because X fails when..." |
+| ⚡ **对比/类比** | unlike X, in contrast to | "Unlike GCN, our method preserves..." |
+| 💡 **非显然观察** | surprisingly, counter-intuitively | "Surprisingly, removing X improves..." |
+| 🧩 **深层联系** | 联系更广泛规律 | "This connects to the broader principle of..." |
+
+**Insight Desert 检测**（连续空洞段落）：
+
+| 位置 | 条件 | 处理 |
+|------|------|------|
+| Introduction | 连续 ≥2 段无 insight marker | 🔴 必须重写 |
+| Method | 连续 ≥2 段无 insight marker | 🔴 必须补充 motivation |
+| Experiments | 连续 ≥3 段无 insight marker | 🟡 补充分析后继续 |
+
+**典型 Insight Desert（workshop 级写法）**：
+> "Deep learning has achieved remarkable success. Recently, GNNs have become popular. We propose a novel method..."
+
+**修复后（顶会级写法）**：
+> "Message-passing GNNs provably cannot distinguish k-WL-indistinguishable graphs (Xu et al., 2019). We observe that 73% of failure cases trace back to this ceiling (Table 1), motivating our approach..."
+
+#### Motivation-First Rule（v4 强制）
+
+Method section 中每个公式/算法/架构组件前**必须有 ≥1 句 motivation** 回答"为什么需要这个"。
+
+- ❌ 错误：`"We define the loss function as: L = ..."`
+- ✅ 正确：`"Standard CE ignores hierarchical structure, treating cat→dog the same as cat→car. To inject this structure, we define: L = ..."`
+
+检查方法：对每个 `\begin{equation}` / `\begin{algorithm}`,检查前 2 句是否含 motivation 关键词
+（"because", "to address", "motivated by", "to handle", "this enables"）。
+
+#### Experiment Story Arc（v4 强制结构）
+
+Experiment section 必须遵循以下叙事弧线：
+
+| 段落 | 标题模板 | 内容 | 必需 |
+|------|---------|------|------|
+| §1 | Setup | 数据集 + baseline + 评价指标 + 实现细节 | ✅ |
+| §2 | Main Results | 主实验表 + 核心发现 | ✅ |
+| §3 | **Why It Works** | Ablation + 组件分析 + 关键设计的 justify | ✅ |
+| §4 | **Deep Analysis** | Case study / Error analysis / Visualization | ✅ |
+| §5 | **When It Fails** | Failure cases + Limitation 分析 | ✅ |
+| §6 | Efficiency | FLOPs / Memory / Training time 对比 | ⚠️ 建议 |
+| §7 | Sensitivity | 超参数 / 数据量 / 噪声的 robustness | ⚠️ 建议 |
+
+> ⛔ 没有 "Why It Works" → 审稿人会问方法为什么 work
+> ⛔ 没有 "When It Fails" → 审稿人认为你在隐藏弱点
+> **Workshop 论文 = 只有 §1+§2；顶会论文 = §1-§5 全覆盖**
+
+### Step 1.5: Exemplar Analysis (v2)
+
+1. Find 3 similar oral/spotlight papers from target venue (last 2 years)
+2. Analyze: Intro structure, Method intuition-to-formal ratio, Experiment storyline
+3. Save to `artifacts/exemplar_analysis.md`
+4. Use as style reference for each section
+
+> Novice mode: MANDATORY. Expert mode: recommended.
 
 ### Step 2: SDP 双模型辩论起草
 
@@ -243,6 +368,22 @@ Baseline 2 & 76.8 & 83.4 & 70.2 \\
 - 额外实验结果（正文放不下的）
 - 代码可用性声明
 
+### Step 4.5: Claims-Paper Cross-Validation (v2)
+
+For every assertive statement in draft_final.tex:
+1. Match to claim in evidence_graph.json
+2. No match = unsupported claim (fix or remove)
+3. publishable=false source = shadow source leak
+4. Check claim STRENGTH matches evidence STRENGTH (prevent overclaiming)
+5. Verify each Contribution bullet has corresponding section/experiment
+
+### Step 4.7: Fresh Eyes Test (v2)
+
+With a NEW LLM context (no prior history), read only Introduction + Abstract:
+1. Ask: What problem? Core contribution? Why important?
+2. If unclear -> rewrite Introduction
+3. Novice mode: MANDATORY.
+
 ### Step 5: LaTeX 编译流水线
 
 参见 `overleaf_setup.md` 了解完整环境配置，`venue_templates.md` 了解模板注册表。
@@ -366,3 +507,44 @@ Overleaf Workshop 插件 → 双向实时同步
 3. **Underclaim in prose, overdeliver in evidence** — 文字谦虚，数据说话
 4. **不要追求完美初稿** — 第一版的目的是给辩论提供靶子
 5. **Related Work 不是引用堆砌** — 每类方法结尾必须写"我们的区别"
+
+### Step 8.5: Reproducibility Checklist (v2)
+
+Auto-generate venue-format checklist from experiment metadata:
+- Seeds, hardware, training time, optimizer, batch size
+- Code/data availability statement
+- Output: `artifacts/reproducibility_checklist.md`
+
+## Pipeline Exit
+
+完成后执行：
+1. 更新 `project_state.json` 的 `current_stage`
+2. **必须调用** `pipeline-orchestrator.complete_stage("writing")` 验证产出
+3. 根据返回值自动进入下一阶段（`review_round1` 第 1 轮审稿）
+
+---
+
+## Domain Taste 集成
+
+在写作前，**必须**读取以下文件（由 `domain_calibration` stage 自动生成）:
+- `artifacts/domain_taste_profile.json` → 写作规则和结构标准
+- `artifacts/exemplar_structures.json` → elite 论文的段落结构模板
+
+### 校准规则
+
+1. **结构校准**: 每写完一个 section，对比 exemplar_structures.json:
+   - 段落数达到 elite 平均的 80%？
+   - 词数达到 elite 平均的 70%？
+   - 低于 → 补充内容后才继续下一 section
+
+2. **质量阈值动态加载**: quality_engine 的检查阈值从 domain_taste 读取:
+   - insight_density 阈值 = elite 值 × 0.7
+   - intro 最少段数 = elite 值 × 0.8
+   - 图表最少数 = elite 值 × 0.7
+
+3. **实验深度强制**: domain_taste 中 elite% > 70% 的实验类型为 **MANDATORY**:
+   - 例: has_ablation elite%=100 → ablation 必须做
+   - 例: has_failure_analysis elite%=62 → 不强制但强烈建议
+
+4. **Baseline 完整性**: 检查论文是否提到了 `must_have_baselines` 中的所有 baseline
+

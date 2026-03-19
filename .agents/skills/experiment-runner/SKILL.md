@@ -97,6 +97,35 @@ experiments/{experiment_name}/
 
 用户确认 baseline 清单后继续。
 
+### Step 1.6.1: Strongest Baseline Verification（v4 新增）
+
+确定 baseline 列表后、开始跑代码前，**必须验证没有遗漏强 baseline**：
+
+1. 搜索目标 task 近 6 个月的 arXiv 论文
+2. 提取声称的 SOTA 数字，与当前 baseline 列表对比
+3. 如果发现更强的方法 → 必须纳入或给出 legitimate 排除理由：
+   - ✅ "使用额外数据，不 fair comparison"
+   - ✅ "未开源且无法从论文描述复现"
+   - ❌ "太强了" → 这恰恰说明你必须比较
+4. 输出 `baseline_verification.md`
+
+> ⛔ Reviewer 发现你漏掉了一个显然应该比较的方法，通常是直接 reject 的理由。
+
+### Step 1.6.2: Venue-Specific Diagnostic Experiment Menu（v4 新增）
+
+根据目标 venue 的偏好，自动加载必需的 diagnostic 实验类型：
+
+| Venue 类型 | 必需 Diagnostics | 示例 Venues |
+|-----------|-----------------|------------|
+| ML 理论偏重 | Convergence 分析, 理论 vs 实际 gap | ICML, COLT |
+| CV 偏重 | Visual quality 对比, 跨分辨率测试 | CVPR, ICCV, ECCV |
+| NLP 偏重 | 不同语言/领域 OOD 测试, Error taxonomy | ACL, EMNLP |
+| 通用 ML | Scalability, Efficiency, Robustness | NeurIPS, ICLR |
+| 应用偏重 | Real-world deployment case study | KDD, WWW, SIGIR |
+
+从 `venue_playbooks/playbooks.json` 加载 `mandatory_diagnostics` 字段，
+写入 `experimental_design.md` 的必需实验列表。
+
 ### Step 1.7: 环境自动配置
 
 **本地**：
@@ -458,6 +487,54 @@ pip install -r requirements.txt
 
 > ⚠️ 不同版型使用不同的通过标准。Type B/C **不需要** SOTA 增益阈值，否则会被误杀。
 
+### Step 4.5: Experiment Code Audit (v2.1)
+
+**这是最容易被忽略但最致命的步骤。** 代码 bug 是 ML 论文被撤稿的 #1 原因。
+
+在获得实验结果后、写入 evidence_graph 之前，执行代码审查：
+
+#### 4.5.1 Data Leakage 检查
+```
+检查 data loader 代码：
+├── train/val/test split 是否在正确的层级划分？
+│   ├── 时序数据：是否按时间切分？（不能随机 shuffle 时序数据的 split）
+│   ├── 图数据：是否有跨 split 的消息传递？
+│   └── NLP：同一文档的不同句子是否出现在不同 split？
+├── 数据增强是否只在 train set 上？
+├── Normalization 参数（mean/std）是否只从 train set 计算？
+└── Feature engineering 是否有未来信息泄露？
+```
+
+#### 4.5.2 Evaluation Metric 一致性
+```
+对照论文中声称的 metric 和代码实现：
+├── F1: macro vs micro vs weighted？与领域标准一致？
+├── 分类 metric: 是否处理了多标签/多类的边界情况？
+├── 回归 metric: RMSE vs MAE vs MAPE 的选择是否合理？
+└── 自定义 metric: 公式实现是否和论文中的完全一致？
+```
+
+#### 4.5.3 Randomness Fix 检查
+```python
+# 以下所有来源的随机性是否都被固定？
+import random; random.seed(SEED)
+import numpy as np; np.random.seed(SEED)
+import torch; torch.manual_seed(SEED)
+torch.cuda.manual_seed_all(SEED)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+# DataLoader: num_workers > 0 时需要 worker_init_fn
+```
+
+#### 4.5.4 Baseline 复现验证
+```
+├── 原论文报告的数字 vs 我们复现的数字 → 差距小于 X%？
+├── 差距大 → 检查是否用了不同的数据预处理、不同的超参数
+└── 如果使用原作者代码 → 确认版本和 commit hash
+```
+
+输出 `artifacts/code_audit.md`（通过/不通过 + 发现的问题）。
+
 ### Step 5: 结果写回
 
 - `evidence_graph.json`（新 `result` claims）
@@ -482,3 +559,28 @@ pip install -r requirements.txt
 3. **失败的尝试也是数据** — 记入 attempt_log，喂给 evolution-memory
 4. **Budget 限制不是惩罚** — 它防止你在错误方向上浪费时间
 5. **初始实现阶段不是浪费时间** — 它是最重要的阶段，跑通=成功一半
+
+## Pipeline Exit
+
+完成后执行：
+1. 更新 `project_state.json` 的 `current_stage`
+2. **必须调用** `pipeline-orchestrator.complete_stage("experiment_run")` 验证产出
+3. 根据返回值自动进入下一阶段（`venue_fit_check` venue 匹配度分析）
+
+> v2: experiment_run validator 会检查统计严谨性（≥3 seeds + std）和 ablation 完整性。
+
+---
+
+## Domain Taste 集成
+
+在实验设计前，**必须**读取 `artifacts/domain_taste_profile.json`（由 `domain_calibration` stage 自动生成）。
+
+### 规则
+
+1. **Baseline 列表**: `must_have_baselines` → 全部加入对比
+2. **实验深度**: `structural_norms` 中 elite% > 70% 的实验类型 → **MANDATORY**
+   - 例: has_ablation elite%=100 → 必须做 ablation
+   - 例: has_efficiency_analysis elite%=75 → 必须做效率分析
+3. **统计标准**: 参考 elite 论文的统计报告习惯
+4. **代码审计**: 实验代码完成后，调用 `experiment_auditor.run_full_audit()` 自动审计
+
