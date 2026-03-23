@@ -74,7 +74,7 @@ experimental_design.md
 papers/
 raw_pdfs/
 parsed_mds/
-dialogue/
+**/dialogue/
 artifacts/
 experiments/
 

@@ -1,0 +1,65 @@
+{
+  "project_name": "",
+  "description": "",
+  "created_at": "",
+  "idea_source": "",
+
+  "research_domain": {
+    "field": "",
+    "subfield": "",
+    "keywords": []
+  },
+
+  "target_venue": {
+    "name": "",
+    "tier": "top",
+    "deadline": "",
+    "format": "conference",
+    "page_limit": 9
+  },
+
+  "pipeline_overrides": {
+    "autopilot": false,
+    "sdp_mode": "full",
+    "user_level": "intermediate",
+    "skip_stages": [],
+    "max_survey_papers": 50,
+    "max_deep_dive_papers": 10,
+    "elo_rounds": 3,
+    "reviewer_count": 6
+  },
+
+  "model_overrides": {},
+
+  "survey_config": {
+    "seed_queries": [],
+    "required_sources": ["semantic_scholar", "arxiv"],
+    "year_range": "2022-2026",
+    "must_include_papers": [],
+    "exclude_keywords": []
+  },
+
+  "experiment_config": {
+    "gpu_server": "",
+    "gpu_server_note": "",
+    "framework": "pytorch",
+    "baseline_repos": [],
+    "attempt_budget": 5,
+    "compute_budget_hours": null
+  },
+
+  "writing_config": {
+    "template": "latex",
+    "citation_style": "natbib",
+    "language": "english",
+    "overleaf_project_id": null
+  },
+
+  "team": {
+    "user_publications": [],
+    "advisor_publications": [],
+    "advisor_note": ""
+  },
+
+  "notes": ""
+}
