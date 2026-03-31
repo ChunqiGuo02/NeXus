@@ -177,15 +177,15 @@ Claude Code reads `CLAUDE.md` at project root to discover capabilities.
 
 ```
 # Full pipeline from scratch
-你: /full-research-pipeline "graph neural networks for urban computing"
+User: /full-research-pipeline "graph neural networks for urban computing"
 
 # Improve a rejected paper
-你: /revise-paper (attach PDF + reviewer comments)
+User: /revise-paper (attach PDF + reviewer comments)
 
 # Quick one-off tasks
-你: 帮我调研 urban heat island mitigation
-你: 帮我想几个 research idea
-你: 审一下这篇论文，目标 NeurIPS 2026
+User: Help me research urban heat island mitigation
+User: Help me come up with several research ideas
+User: Review this paper with the goal of NeurIPS 2026
 ```
 
 ---
@@ -541,7 +541,7 @@ Multi-source Search → Smart Filter → 20-30 papers → Brief overview (3-5 mi
 
 ## 🤖 Autopilot Mode
 
-Say **"autopilot"**, **"自动完成"**, or **"vibe research"** at any stage:
+Say **"autopilot"**, or **"vibe research"** at any stage:
 
 ```
 你: /full-research-pipeline "urban computing"
